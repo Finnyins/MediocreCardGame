@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project24"
         mc:Ignorable="d"
-        Title="CardsGame" Height="508.908" Width="855.854" MinWidth="855.854" MinHeight="508.908" SizeToContent="WidthAndHeight">
+        Title="The Mediocre Card Game" Height="508.908" Width="855.854" MinWidth="855.854" MinHeight="508.908" SizeToContent="WidthAndHeight">
     <Grid x:Name="GRD_Main" SizeChanged="GRD_Main_SizeChanged" RenderTransformOrigin="0.5,0.5" Height="480" MinWidth="852" MinHeight="480" Margin="0,0,3.6,-0.8">
         <Grid.RenderTransform>
             <TransformGroup>
@@ -15,7 +15,43 @@
                 <TranslateTransform/>
             </TransformGroup>
         </Grid.RenderTransform>
-        <Grid x:Name="GRD_Play" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
+        <Canvas x:Name="CNV_Menu" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="852">
+            <Canvas.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF656565" Offset="0"/>
+                    <GradientStop Color="#FFE0E0E0" Offset="1"/>
+                </LinearGradientBrush>
+            </Canvas.Background>
+            <Label x:Name="LBL_Title" Content="Mediocre Card Game" Canvas.Top="10" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="72" Width="832" Canvas.Left="10" Background="#00000000"/>
+            <Label x:Name="LBL_SubTitle" Content="A Rudementary Card Game of Sorts" Canvas.Top="84" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="24" Width="832" Canvas.Left="10" Background="#00000000"/>
+            <Button x:Name="BTN_PlayGame" Content="Play" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="237" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" Click="BTN_PlayGame_Click" ToolTip="Start a new match">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="#FF666666" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Button x:Name="BTN_Stats" Content="Stats" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="BTN_Stats_Click" Canvas.Left="376" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" ToolTip="View your player stats">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="#FF666666" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Button x:Name="BTN_Quit" Content="Quit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="BTN_Quit_Click" Canvas.Left="515" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" ToolTip="Close the game">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="#FF666666" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.0.1" Canvas.Top="450" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16"/>
+            <Label x:Name="LBL_Title_Copy" Content="The" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="36" Height="45" Canvas.Top="-12"/>
+        </Canvas>
+        <Grid x:Name="GRD_Play" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5" Visibility="Hidden" IsEnabled="False">
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -111,7 +147,69 @@
                 </LinearGradientBrush>
             </Canvas.Background>
             <Label x:Name="LBL_Victor" Content="[none]" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="10" Canvas.Top="53" Width="397"/>
-            <Label x:Name="LBL_Wins" Content="Wins!" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="140" Canvas.Top="126"/>
+            <Label x:Name="LBL_Win" Content="Wins!" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="140" Canvas.Top="126"/>
+        </Canvas>
+        <Canvas x:Name="CNV_GameSelect" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="852" Visibility="Hidden" IsEnabled="False">
+            <Canvas.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF656565" Offset="0"/>
+                    <GradientStop Color="#FFE0E0E0" Offset="1"/>
+                </LinearGradientBrush>
+            </Canvas.Background>
+            <Label x:Name="LBL_Title1" Content="Select Game Mode" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="72" Width="832" Canvas.Left="10" Background="#00000000"/>
+            <Button x:Name="BTN_Classic" Content="Classic" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="237" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" ToolTip="The standard experience.&#xA;Both players use their own standard 52-card deck" Click="BTN_Classic_Click">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="#FF666666" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Button x:Name="BTN_SharedDeck" Content="Shared" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="376" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" ToolTip="A more randomized experience.&#xA;Both players draw from the same standard 52-card deck" Click="BTN_SharedDeck_Click">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="#FF666666" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Button x:Name="BTN_Back" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="515" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" ToolTip="Click to go back to the main menu" Click="BTN_Back_Click">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="#FF666666" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+        </Canvas>
+        <Canvas x:Name="CNV_Stats" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="852" Visibility="Hidden" IsEnabled="False">
+            <Canvas.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF656565" Offset="0"/>
+                    <GradientStop Color="#FFE0E0E0" Offset="1"/>
+                </LinearGradientBrush>
+            </Canvas.Background>
+            <Button x:Name="BTN_BackToMenu" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="372" Canvas.Top="330" RenderTransformOrigin="0.5,0.5" ToolTip="Click to go back to the main menu" Click="BTN_Back_Click">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="#FF666666" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Label x:Name="LBL_StatsTitle" Content="Stats" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="72" Width="832" Canvas.Left="10" Background="#00000000"/>
+            <Label x:Name="LBL_Wins" Content="Wins" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="226" Background="#00000000" Canvas.Top="111" Canvas.Left="231"/>
+            <Label x:Name="LBL_Classic" Content="Classic:" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="182" Background="#00000000" Canvas.Top="174"/>
+            <Label x:Name="LBL_Game" Content="Game Mode" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="226" Background="#00000000" Canvas.Top="111"/>
+            <Label x:Name="LBL_Losses" Content="Losses" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="191" Background="#00000000" Canvas.Top="111" Canvas.Left="462"/>
+            <Label x:Name="LBL_Ties" Content="Ties" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="184" Background="#00000000" Canvas.Top="111" Canvas.Left="658"/>
+            <Label x:Name="LBL_Shared" Content="Shared:" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="182" Background="#00000000" Canvas.Top="232"/>
+            <Label x:Name="LBL_ClassWin" Content="0" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="226" Background="#00000000" Canvas.Top="174" Canvas.Left="231"/>
+            <Label x:Name="LBL_ClassLoss" Content="0" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="196" Background="#00000000" Canvas.Top="174" Canvas.Left="457"/>
+            <Label x:Name="LBL_ClassTies" Content="0" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="184" Background="#00000000" Canvas.Top="174" Canvas.Left="658"/>
+            <Label x:Name="LBL_ShareWin" Content="0" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="226" Background="#00000000" Canvas.Top="232" Canvas.Left="231"/>
+            <Label x:Name="LBL_ShareLoss" Content="0" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="196" Background="#00000000" Canvas.Top="232" Canvas.Left="458"/>
+            <Label x:Name="LBL_ShareTie" Content="0" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="36" Width="184" Background="#00000000" Canvas.Top="232" Canvas.Left="658"/>
         </Canvas>
 
     </Grid>

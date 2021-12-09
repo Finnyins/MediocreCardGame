@@ -27,6 +27,10 @@ namespace Project24
     /// </summary>
     public partial class MainWindow : Window
     {
+        byte Gamemode = 0;
+
+        List<MDL_Stats> stats = StatsManager.Load();
+
         SCR_Deck PlrDeck = new SCR_Deck();
         SCR_Deck CPUDeck = new SCR_Deck();
 
@@ -42,10 +46,13 @@ namespace Project24
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public void StartGame()
+        {
             DealCards();
             PlayerTurn();
         }
-
         private void DealCards()
         {
             for (int i = 0; i < 5; i++)
@@ -60,7 +67,6 @@ namespace Project24
             BTN_CardV.Content = PlrHand[4];
             LBL_CPUDeck.Content = CPUDeck.cards.Count();
             LBL_PlrDeck.Content = PlrDeck.cards.Count();
-            ReadCPUHand();
         }
         
         private void EnableCards()
@@ -147,12 +153,12 @@ namespace Project24
 
         private async void CPUTurn()
         {
-            bool hasonlywilds = true;
             byte highestcard = 0;
-            if (CPUHand.Count < 1)
+            if (CPUHand.Count == 0)
             {
                 PrepEndTurn(false, 0);
             }
+            bool hasonlywilds = true;
             foreach (string card in CPUHand)
             {
                 if (card != "Wild")
@@ -164,7 +170,7 @@ namespace Project24
                     }
                 }
             }
-            if (hasonlywilds)
+            if (hasonlywilds && CPUHand.Count != 0)
             {
                 LBL_Playcard.Visibility = Visibility.Visible;
                 LBL_Playcard.Foreground = Brushes.Red;
@@ -230,6 +236,17 @@ namespace Project24
             // This is nothing but the remnants of a failed scaling setup
         }
 
+        async Task EndGame()
+        {
+            await Task.Delay(2500);
+            CNV_Victory.IsEnabled = false;
+            CNV_Victory.Visibility = Visibility.Hidden;
+            GRD_Play.IsEnabled = false;
+            GRD_Play.Visibility = Visibility.Hidden;
+            CNV_Menu.IsEnabled = true;
+            CNV_Menu.Visibility = Visibility.Visible;
+        }
+
         async Task EndTurn(bool plrscore, byte points)
         {
             await Task.Delay(2500);
@@ -250,13 +267,22 @@ namespace Project24
                 LBL_Who.Content = "Your";
                 LBL_Turn.Content = "Turn";
             }
-            string CPUdraw = CPUDeck.Draw();
+            string CPUdraw = null;
+            if (CPUHand.Count < 5)
+            {
+                CPUdraw = CPUDeck.Draw();
+            }
             if (CPUdraw != null)
             {
                 CPUHand.Add(CPUdraw);
                 RCT_EcardV.Visibility = Visibility.Visible;
+                RCT_EcardIV.Visibility = Visibility.Visible;
             }
-            string Plrdraw = PlrDeck.Draw();
+            string Plrdraw = null;
+            if (PlrHand.Count < 5)
+            {
+                Plrdraw = PlrDeck.Draw();
+            }
             if (Plrdraw != null)
             {
                 PlrHand.Add(Plrdraw);
@@ -270,20 +296,32 @@ namespace Project24
                 if (PlrPoints > CPUPoints)
                 {
                     LBL_Victor.Content = "Player";
+                    stats[Gamemode].Wins += 1;
+                    
                 }
                 else if (PlrPoints < CPUPoints)
                 {
                     LBL_Victor.Content = "CPU";
+                    stats[Gamemode].Losses += 1;
                 }
                 else
                 {
                     LBL_Victor.Content = "Draw. Nobody";
+                    stats[Gamemode].Ties += 1;
                 }
                 CNV_Victory.Visibility = Visibility.Visible;
+                StatsManager.Update(stats[Gamemode]);
+                await EndGame();
+                return;
             }
+            ReadCPUHand();
             if (plrscore)
             {
                 await PrepCPUTurn();
+            }
+            else
+            {
+                PlayerTurn();
             }
         }
 
@@ -340,7 +378,7 @@ namespace Project24
                         lowestcard = Convert.ToByte(card);
                     }
                 }
-                if (haswild && Convert.ToByte(LBL_Playcard.Content) > 5)
+                if (haswild && Convert.ToByte(LBL_Playcard.Content) > 5 && CPUHand.Count != 0)
                 {
                     LBL_Playcard.Foreground = Brushes.Red;
                     LBL_Playcard.Content = "Wild";
@@ -604,7 +642,6 @@ namespace Project24
                 defend = false;
                 DisableCards();
                 PrepEndTurn(false, Convert.ToByte(remainder));
-                PlayerTurn();
             }
         }
 
@@ -615,14 +652,80 @@ namespace Project24
                 if (LBL_Playcard.Content == "Wild")
                 {
                     defend = false;
-                    PrepEndTurn(false, 0);
+                    EndTurn(false, 0);
                 }
                 else
                 {
                     defend = false;
-                    PrepEndTurn(false, Convert.ToByte(LBL_Playcard.Content));
+                    EndTurn(false, Convert.ToByte(LBL_Playcard.Content));
                 }
             }
+        }
+
+        private void BTN_PlayGame_Click(object sender, RoutedEventArgs e)
+        {
+            CNV_Menu.IsEnabled = false;
+            CNV_Menu.Visibility = Visibility.Hidden;
+            CNV_GameSelect.IsEnabled = true;
+            CNV_GameSelect.Visibility = Visibility.Visible;
+        }
+
+        private void BTN_Stats_Click(object sender, RoutedEventArgs e)
+        {
+            CNV_Menu.IsEnabled = false;
+            CNV_Menu.Visibility = Visibility.Hidden;
+            CNV_Stats.IsEnabled = true;
+            CNV_Stats.Visibility = Visibility.Visible;
+            stats = StatsManager.Load();
+            LBL_ClassWin.Content = stats[0].Wins;
+            LBL_ClassLoss.Content = stats[0].Losses;
+            LBL_ClassTies.Content = stats[0].Ties;
+            LBL_ShareWin.Content = stats[1].Wins;
+            LBL_ShareLoss.Content = stats[1].Losses;
+            LBL_ShareTie.Content = stats[1].Ties;
+        }
+
+        private void BTN_Quit_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult quit = MessageBox.Show("Quit the game?\n\n\nHonestly I don't blame you", "Quit Game", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            if (quit == MessageBoxResult.Yes)
+            {
+                Close();
+            }
+        }
+
+        private void BTN_Back_Click(object sender, RoutedEventArgs e)
+        {
+            CNV_GameSelect.IsEnabled = false;
+            CNV_GameSelect.Visibility = Visibility.Hidden;
+            CNV_Stats.IsEnabled = false;
+            CNV_Stats.Visibility = Visibility.Hidden;
+            CNV_Menu.IsEnabled = true;
+            CNV_Menu.Visibility = Visibility.Visible;
+        }
+
+        private void BTN_Classic_Click(object sender, RoutedEventArgs e)
+        {
+            CNV_GameSelect.IsEnabled = false;
+            CNV_GameSelect.Visibility = Visibility.Hidden;
+            GRD_Play.IsEnabled = true;
+            GRD_Play.Visibility = Visibility.Visible;
+            Gamemode = 0;
+            PlrDeck = new SCR_Deck();
+            CPUDeck = new SCR_Deck();
+            StartGame();
+        }
+
+        private void BTN_SharedDeck_Click(object sender, RoutedEventArgs e)
+        {
+            CNV_GameSelect.IsEnabled = false;
+            CNV_GameSelect.Visibility = Visibility.Hidden;
+            GRD_Play.IsEnabled = true;
+            GRD_Play.Visibility = Visibility.Visible;
+            Gamemode = 1;
+            PlrDeck = new SCR_Deck();
+            CPUDeck = PlrDeck;
+            StartGame();
         }
     }
 }
