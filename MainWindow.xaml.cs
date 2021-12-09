@@ -31,6 +31,7 @@ namespace Project24
         SCR_Deck CPUDeck = new SCR_Deck();
 
         bool turn = false;
+        bool defend = false;
 
         List<string> CPUHand = new List<string>();
         List<string> PlrHand = new List<string>();
@@ -57,16 +58,163 @@ namespace Project24
             BTN_CardIII.Content = PlrHand[2];
             BTN_CardIV.Content = PlrHand[3];
             BTN_CardV.Content = PlrHand[4];
+            LBL_CPUDeck.Content = CPUDeck.cards.Count();
+            LBL_PlrDeck.Content = PlrDeck.cards.Count();
             ReadCPUHand();
         }
         
+        private void EnableCards()
+        {
+            switch (PlrHand.Count)
+            {
+                case 5:
+                    BTN_CardI.IsEnabled = true;
+                    BTN_CardII.IsEnabled = true;
+                    BTN_CardIII.IsEnabled = true;
+                    BTN_CardIV.IsEnabled = true;
+                    BTN_CardV.IsEnabled = true;
+                    break;
+
+                case 4:
+                    BTN_CardI.IsEnabled = true;
+                    BTN_CardII.IsEnabled = true;
+                    BTN_CardIII.IsEnabled = true;
+                    BTN_CardIV.IsEnabled = true;
+                    break;
+
+                case 3:
+                    BTN_CardI.IsEnabled = true;
+                    BTN_CardII.IsEnabled = true;
+                    BTN_CardIII.IsEnabled = true;
+                    break;
+
+                case 2:
+                    BTN_CardI.IsEnabled = true;
+                    BTN_CardII.IsEnabled = true;
+                    break;
+
+                case 1:
+                    BTN_CardI.IsEnabled = true;
+                    break;
+            }
+            BTN_CardI.IsEnabled = true;
+            BTN_CardII.IsEnabled = true;
+            BTN_CardIII.IsEnabled = true;
+            BTN_CardIV.IsEnabled = true;
+            BTN_CardV.IsEnabled = true;
+        }
+        private void DisableCards()
+        {
+            BTN_CardI.IsEnabled = false;
+            BTN_CardII.IsEnabled = false;
+            BTN_CardIII.IsEnabled = false;
+            BTN_CardIV.IsEnabled = false;
+            BTN_CardV.IsEnabled = false;
+        }
         private void PlayerTurn()
         {
             LBL_Who.Content = "Your";
             turn = true;
+            EnableCards();
+            if (PlrHand.Count < 1)
+            {
+                turn = false;
+                PrepEndTurn(true, 0);
+            }
         }
 
+        async Task PlayerDefend()
+        {
+            LBL_Who.Content = "Your";
+            LBL_Turn.Content = "Turn";
+            defend = true;
+            EnableCards();
+            BTN_Pass.IsEnabled = true;
+            BTN_Pass.Visibility = Visibility.Visible;
+            if (PlrHand.Count < 1)
+            {
+                turn = false;
+                if (LBL_Playcard.Content == "Wild")
+                {
+                    PrepEndTurn(false, 0);
+                }
+                else
+                {
+                    PrepEndTurn(false, Convert.ToByte(LBL_Playcard.Content));
+                }
+            }
+        }
 
+        private async void CPUTurn()
+        {
+            bool hasonlywilds = true;
+            byte highestcard = 0;
+            if (CPUHand.Count < 1)
+            {
+                PrepEndTurn(false, 0);
+            }
+            foreach (string card in CPUHand)
+            {
+                if (card != "Wild")
+                {
+                    hasonlywilds = false;
+                    if (Convert.ToByte(card) > highestcard)
+                    {
+                        highestcard = Convert.ToByte(card);
+                    }
+                }
+            }
+            if (hasonlywilds)
+            {
+                LBL_Playcard.Visibility = Visibility.Visible;
+                LBL_Playcard.Foreground = Brushes.Red;
+                LBL_Playcard.Content = "Wild";
+                CPUHand.Remove("Wild");
+            }
+            else
+            {
+                LBL_Playcard.Visibility = Visibility.Visible;
+                LBL_Playcard.Foreground = Brushes.Red;
+                LBL_Playcard.Content = Convert.ToString(highestcard);
+                CPUHand.Remove(Convert.ToString(highestcard));
+            }
+            if (RCT_EcardV.IsVisible)
+            {
+                RCT_EcardV.Visibility = Visibility.Hidden;
+            }
+            else if (RCT_EcardIV.IsVisible)
+            {
+                RCT_EcardIV.Visibility = Visibility.Hidden;
+            }
+            else if (RCT_EcardIII.IsVisible)
+            {
+                RCT_EcardIII.Visibility = Visibility.Hidden;
+            }
+            else if (RCT_EcardII.IsVisible)
+            {
+                RCT_EcardII.Visibility = Visibility.Hidden;
+            }
+            else if (RCT_EcardI.IsVisible)
+            {
+                RCT_EcardI.Visibility = Visibility.Hidden;
+            }
+            LBL_Playcard.Visibility = Visibility.Visible;
+            if (LBL_Playcard.Content == "Wild")
+            {
+                defend = false;
+                PrepEndTurn(false, 0);
+            }
+            else
+            {
+                await PlayerDefend();
+            }
+        }
+
+        async Task PrepCPUTurn()
+        {
+            await Task.Delay(2500);
+            CPUTurn();
+        }
 
         private void ReadCPUHand()
         {
@@ -86,23 +234,57 @@ namespace Project24
         {
             await Task.Delay(2500);
             LBL_Playcard.Visibility = Visibility.Hidden;
+            BTN_Pass.IsEnabled = false;
+            BTN_Pass.Visibility = Visibility.Hidden;
             if (plrscore)
             {
                 PlrPoints += points;
                 LBL_PlrPnt.Content = PlrPoints;
+                LBL_Who.Content = "CPU's";
+                LBL_Turn.Content = "Turn";
             }
             else
             {
                 CPUPoints += points;
                 LBL_CPUPnts.Content = CPUPoints;
+                LBL_Who.Content = "Your";
+                LBL_Turn.Content = "Turn";
             }
-            CPUHand.Add(CPUDeck.Draw());
-            ReadCPUHand();
-            RCT_EcardV.Visibility = Visibility.Visible;
-            PlrHand.Add(PlrDeck.Draw());
-            BTN_CardV.Content = PlrHand[4];
-            BTN_CardV.IsEnabled = true;
-            BTN_CardV.Visibility = Visibility.Visible;
+            string CPUdraw = CPUDeck.Draw();
+            if (CPUdraw != null)
+            {
+                CPUHand.Add(CPUdraw);
+                RCT_EcardV.Visibility = Visibility.Visible;
+            }
+            string Plrdraw = PlrDeck.Draw();
+            if (Plrdraw != null)
+            {
+                PlrHand.Add(Plrdraw);
+                BTN_CardV.Content = PlrHand[4];
+                BTN_CardV.Visibility = Visibility.Visible;
+            }
+            LBL_CPUDeck.Content = CPUDeck.cards.Count();
+            LBL_PlrDeck.Content = PlrDeck.cards.Count();
+            if (PlrHand.Count == 0 && CPUHand.Count == 0)
+            {
+                if (PlrPoints > CPUPoints)
+                {
+                    LBL_Victor.Content = "Player";
+                }
+                else if (PlrPoints < CPUPoints)
+                {
+                    LBL_Victor.Content = "CPU";
+                }
+                else
+                {
+                    LBL_Victor.Content = "Draw. Nobody";
+                }
+                CNV_Victory.Visibility = Visibility.Visible;
+            }
+            if (plrscore)
+            {
+                await PrepCPUTurn();
+            }
         }
 
         private async void PrepEndTurn(bool plrscore, byte points)
@@ -116,11 +298,15 @@ namespace Project24
         {
             if (LBL_Playcard.Content == "Wild")
             {
-                EndTurn(true, 0);
+                PrepEndTurn(true, 0);
             }
             else
             {
-                byte remainder = 0;
+                if (CPUHand.Count < 1)
+                {
+                    PrepEndTurn(true, Convert.ToByte(LBL_Playcard.Content));
+                }
+                sbyte remainder = 0;
                 bool haswild = false;
                 bool hasequal = false;
                 bool hasgreater = false;
@@ -183,7 +369,7 @@ namespace Project24
                 }
                 else if (hasgreater && lowestcard < Convert.ToByte(LBL_Playcard.Content))
                 {
-                    remainder = Convert.ToByte(Convert.ToByte(LBL_Playcard.Content) - lowestcard);
+                    remainder = Convert.ToSByte(Convert.ToByte(LBL_Playcard.Content) - lowestcard);
                     LBL_Playcard.Foreground = Brushes.Red;
                     LBL_Playcard.Content = Convert.ToString(lowestcard);
                     CPUHand.Remove(Convert.ToString(lowestcard));
@@ -199,7 +385,7 @@ namespace Project24
                     }
                     else
                     {
-                        remainder = Convert.ToByte(Convert.ToByte(LBL_Playcard.Content) - highestcard);
+                        remainder = Convert.ToSByte(Convert.ToByte(LBL_Playcard.Content) - highestcard);
                         if (remainder < 0)
                         {
                             remainder = 0;
@@ -209,9 +395,27 @@ namespace Project24
                         CPUHand.Remove(Convert.ToString(highestcard));
                     }
                 }
-                Trace.WriteLine($"{haswild}, {hasequal}, {hasgreater}, {highestcard}, {lowestcard}, {lowestgreater}");
-                RCT_EcardV.Visibility = Visibility.Hidden;
-                PrepEndTurn(true, remainder);
+                if (RCT_EcardV.IsVisible)
+                {
+                    RCT_EcardV.Visibility = Visibility.Hidden;
+                }
+                else if (RCT_EcardIV.IsVisible)
+                {
+                    RCT_EcardIV.Visibility = Visibility.Hidden;
+                }
+                else if (RCT_EcardIII.IsVisible)
+                {
+                    RCT_EcardIII.Visibility = Visibility.Hidden;
+                }
+                else if (RCT_EcardII.IsVisible)
+                {
+                    RCT_EcardII.Visibility = Visibility.Hidden;
+                }
+                else if (RCT_EcardI.IsVisible)
+                {
+                    RCT_EcardI.Visibility = Visibility.Hidden;
+                }
+                PrepEndTurn(true, Convert.ToByte(remainder));
             }
         }
 
@@ -235,12 +439,6 @@ namespace Project24
                         LBL_Playcard.Foreground = Brushes.Green;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(0);
-                        BTN_CardV.IsEnabled = false;
-                        BTN_CardV.Visibility = Visibility.Hidden;
-                        BTN_CardI.Content = PlrHand[0];
-                        BTN_CardII.Content = PlrHand[1];
-                        BTN_CardIII.Content = PlrHand[2];
-                        BTN_CardIV.Content = PlrHand[3];
                         break;
 
                     case "BTN_CardII":
@@ -248,12 +446,6 @@ namespace Project24
                         LBL_Playcard.Foreground = Brushes.Green;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(1);
-                        BTN_CardV.IsEnabled = false;
-                        BTN_CardV.Visibility = Visibility.Hidden;
-                        BTN_CardI.Content = PlrHand[0];
-                        BTN_CardII.Content = PlrHand[1];
-                        BTN_CardIII.Content = PlrHand[2];
-                        BTN_CardIV.Content = PlrHand[3];
                         break;
 
                     case "BTN_CardIII":
@@ -261,12 +453,6 @@ namespace Project24
                         LBL_Playcard.Foreground = Brushes.Green;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(2);
-                        BTN_CardV.IsEnabled = false;
-                        BTN_CardV.Visibility = Visibility.Hidden;
-                        BTN_CardI.Content = PlrHand[0];
-                        BTN_CardII.Content = PlrHand[1];
-                        BTN_CardIII.Content = PlrHand[2];
-                        BTN_CardIV.Content = PlrHand[3];
                         break;
 
                     case "BTN_CardIV":
@@ -274,12 +460,6 @@ namespace Project24
                         LBL_Playcard.Foreground = Brushes.Green;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(3);
-                        BTN_CardV.IsEnabled = false;
-                        BTN_CardV.Visibility = Visibility.Hidden;
-                        BTN_CardI.Content = PlrHand[0];
-                        BTN_CardII.Content = PlrHand[1];
-                        BTN_CardIII.Content = PlrHand[2];
-                        BTN_CardIV.Content = PlrHand[3];
                         break;
 
                     case "BTN_CardV":
@@ -287,16 +467,161 @@ namespace Project24
                         LBL_Playcard.Foreground = Brushes.Green;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(4);
-                        BTN_CardV.IsEnabled = false;
-                        BTN_CardV.Visibility = Visibility.Hidden;
-                        BTN_CardI.Content = PlrHand[0];
-                        BTN_CardII.Content = PlrHand[1];
-                        BTN_CardIII.Content = PlrHand[2];
-                        BTN_CardIV.Content = PlrHand[3];
                         break;
                 }
+                if (BTN_CardV.IsVisible)
+                {
+                    BTN_CardV.IsEnabled = false;
+                    BTN_CardV.Visibility = Visibility.Hidden;
+                    BTN_CardI.Content = PlrHand[0];
+                    BTN_CardII.Content = PlrHand[1];
+                    BTN_CardIII.Content = PlrHand[2];
+                    BTN_CardIV.Content = PlrHand[3];
+                }
+                else if (BTN_CardIV.IsVisible)
+                {
+                    BTN_CardIV.IsEnabled = false;
+                    BTN_CardIV.Visibility = Visibility.Hidden;
+                    BTN_CardI.Content = PlrHand[0];
+                    BTN_CardII.Content = PlrHand[1];
+                    BTN_CardIII.Content = PlrHand[2];
+                }
+                else if (BTN_CardIII.IsVisible)
+                {
+                    BTN_CardIII.IsEnabled = false;
+                    BTN_CardIII.Visibility = Visibility.Hidden;
+                    BTN_CardI.Content = PlrHand[0];
+                    BTN_CardII.Content = PlrHand[1];
+                }
+                else if (BTN_CardII.IsVisible)
+                {
+                    BTN_CardII.IsEnabled = false;
+                    BTN_CardII.Visibility = Visibility.Hidden;
+                    BTN_CardI.Content = PlrHand[0];
+                }
+                else if (BTN_CardI.IsVisible)
+                {
+                    BTN_CardI.IsEnabled = false;
+                    BTN_CardI.Visibility = Visibility.Hidden;
+                }
                 turn = false;
+                LBL_Who.Content = "CPU's";
+                LBL_Turn.Content = "Turn";
+                DisableCards();
                 await PrepCPUDefend();
+            }
+            else if (defend)
+            {
+                BTN_Pass.IsEnabled = false;
+                BTN_Pass.Visibility = Visibility.Hidden;
+                sbyte remainder = 0;
+                LBL_Playcard.Visibility = Visibility.Visible;
+                byte played = Convert.ToByte(LBL_Playcard.Content);
+                switch (name)
+                {
+                    case "BTN_CardI":
+                        value = PlrHand[0];
+                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Content = value;
+                        PlrHand.RemoveAt(0);
+                        break;
+
+                    case "BTN_CardII":
+                        value = PlrHand[1];
+                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Content = value;
+                        PlrHand.RemoveAt(1);
+                        break;
+
+                    case "BTN_CardIII":
+                        value = PlrHand[2];
+                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Content = value;
+                        PlrHand.RemoveAt(2);
+                        break;
+
+                    case "BTN_CardIV":
+                        value = PlrHand[3];
+                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Content = value;
+                        PlrHand.RemoveAt(3);
+                        break;
+
+                    case "BTN_CardV":
+                        value = PlrHand[4];
+                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Content = value;
+                        PlrHand.RemoveAt(4);
+                        break;
+                }
+                if (BTN_CardV.IsVisible)
+                {
+                    BTN_CardV.IsEnabled = false;
+                    BTN_CardV.Visibility = Visibility.Hidden;
+                    BTN_CardI.Content = PlrHand[0];
+                    BTN_CardII.Content = PlrHand[1];
+                    BTN_CardIII.Content = PlrHand[2];
+                    BTN_CardIV.Content = PlrHand[3];
+                }
+                else if (BTN_CardIV.IsVisible)
+                {
+                    BTN_CardIV.IsEnabled = false;
+                    BTN_CardIV.Visibility = Visibility.Hidden;
+                    BTN_CardI.Content = PlrHand[0];
+                    BTN_CardII.Content = PlrHand[1];
+                    BTN_CardIII.Content = PlrHand[2];
+                }
+                else if (BTN_CardIII.IsVisible)
+                {
+                    BTN_CardIII.IsEnabled = false;
+                    BTN_CardIII.Visibility = Visibility.Hidden;
+                    BTN_CardI.Content = PlrHand[0];
+                    BTN_CardII.Content = PlrHand[1];
+                }
+                else if (BTN_CardII.IsVisible)
+                {
+                    BTN_CardII.IsEnabled = false;
+                    BTN_CardII.Visibility = Visibility.Hidden;
+                    BTN_CardI.Content = PlrHand[0];
+                }
+                else if (BTN_CardI.IsVisible)
+                {
+                    BTN_CardI.IsEnabled = false;
+                    BTN_CardI.Visibility = Visibility.Hidden;
+                }
+                if (value == "Wild")
+                {
+                    remainder = 0;
+                }
+                else
+                {
+                    remainder = Convert.ToSByte(played - Convert.ToByte(value));
+                    if (remainder < 0)
+                    {
+                        remainder = 0;
+                    }
+                }
+                defend = false;
+                DisableCards();
+                PrepEndTurn(false, Convert.ToByte(remainder));
+                PlayerTurn();
+            }
+        }
+
+        private void BTN_Pass_Click(object sender, RoutedEventArgs e)
+        {
+            if (defend)
+            {
+                if (LBL_Playcard.Content == "Wild")
+                {
+                    defend = false;
+                    PrepEndTurn(false, 0);
+                }
+                else
+                {
+                    defend = false;
+                    PrepEndTurn(false, Convert.ToByte(LBL_Playcard.Content));
+                }
             }
         }
     }

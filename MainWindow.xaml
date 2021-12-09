@@ -99,7 +99,20 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
+            <Label x:Name="LBL_CPUDeck" Content="0" FontFamily="Algerian" FontSize="24" Margin="10,90,510,250.8" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label x:Name="LBL_PlrDeck" Content="0" FontFamily="Algerian" FontSize="24" Margin="122,238,10,101.8" Foreground="White" HorizontalContentAlignment="Center" Grid.Column="1" VerticalContentAlignment="Center"/>
+            <Button x:Name="BTN_Pass" Content="Pass" HorizontalAlignment="Left" Margin="246,211,0,0" VerticalAlignment="Top" Width="100" Height="56" Background="Red" Foreground="#FF691E1E" FontFamily="Algerian" FontSize="36" BorderBrush="White" Visibility="Hidden" Click="BTN_Pass_Click" IsEnabled="False"/>
         </Grid>
+        <Canvas x:Name="CNV_Victory" HorizontalAlignment="Left" Height="228" Margin="217,119,0,0" VerticalAlignment="Top" Width="417" Visibility="Hidden">
+            <Canvas.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFE4CF18" Offset="0"/>
+                    <GradientStop Color="#FF736C2E" Offset="1"/>
+                </LinearGradientBrush>
+            </Canvas.Background>
+            <Label x:Name="LBL_Victor" Content="[none]" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="10" Canvas.Top="53" Width="397"/>
+            <Label x:Name="LBL_Wins" Content="Wins!" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="140" Canvas.Top="126"/>
+        </Canvas>
 
     </Grid>
 </Window>
