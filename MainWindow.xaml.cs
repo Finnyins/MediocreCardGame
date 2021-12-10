@@ -355,6 +355,18 @@ namespace Project24
                 byte lowestgreater = 10;
                 foreach (string card in CPUHand)
                 {
+                    if (card != "Wild")
+                    {
+                        hasnumbercard = true;
+                        if (Convert.ToByte(card) > highestcard)
+                        {
+                            highestcard = Convert.ToByte(card);
+                        }
+                        if (Convert.ToByte(card) < lowestcard)
+                        {
+                            lowestcard = Convert.ToByte(card);
+                        }
+                    }
                     if (card == "Wild")
                     {
                         haswild = true;
@@ -371,18 +383,6 @@ namespace Project24
                             lowestgreater = Convert.ToByte(card);
                         }
                     }
-                    if (card != "Wild")
-                    {
-                        hasnumbercard = true;
-                        if (Convert.ToByte(card) > highestcard)
-                        {
-                            highestcard = Convert.ToByte(card);
-                        }
-                        else if (Convert.ToByte(card) < lowestcard)
-                        {
-                            lowestcard = Convert.ToByte(card);
-                        }
-                    }
                 }
                 if (haswild && Convert.ToByte(LBL_Playcard.Content) > 5 && CPUHand.Count != 0)
                 {
@@ -397,7 +397,14 @@ namespace Project24
                     CPUHand.Remove(Convert.ToString(LBL_Playcard.Content));
                     remainder = 0;
                 }
-                else if (hasgreater && lowestcard < Convert.ToByte(LBL_Playcard.Content) - 3)
+                else if (hasgreater && lowestcard > Convert.ToByte(LBL_Playcard.Content))
+                {
+                    LBL_Playcard.Foreground = Brushes.Red;
+                    LBL_Playcard.Content = Convert.ToString(lowestcard);
+                    CPUHand.Remove(Convert.ToString(lowestcard));
+                    remainder = 0;
+                }
+                else if (hasgreater && lowestcard < Convert.ToByte(Math.Max(0,Convert.ToByte(LBL_Playcard.Content) - 3)))
                 {
                     LBL_Playcard.Foreground = Brushes.Red;
                     LBL_Playcard.Content = Convert.ToString(lowestgreater);
