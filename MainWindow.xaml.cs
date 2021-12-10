@@ -369,7 +369,7 @@ namespace Project24
                             lowestgreater = Convert.ToByte(card);
                         }
                     }
-                    else if (Convert.ToByte(card) > highestcard)
+                    if (Convert.ToByte(card) > highestcard)
                     {
                         highestcard = Convert.ToByte(card);
                     }
@@ -391,7 +391,7 @@ namespace Project24
                     CPUHand.Remove(Convert.ToString(LBL_Playcard.Content));
                     remainder = 0;
                 }
-                else if (hasgreater && lowestcard > Convert.ToByte(LBL_Playcard.Content))
+                else if (lowestcard > Convert.ToByte(LBL_Playcard.Content))
                 {
                     LBL_Playcard.Foreground = Brushes.Red;
                     LBL_Playcard.Content = Convert.ToString(lowestcard);
