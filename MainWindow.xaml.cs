@@ -369,13 +369,16 @@ namespace Project24
                             lowestgreater = Convert.ToByte(card);
                         }
                     }
-                    if (Convert.ToByte(card) > highestcard)
+                    if (card != "Wild")
                     {
-                        highestcard = Convert.ToByte(card);
-                    }
-                    else if (Convert.ToByte(card) < lowestcard)
-                    {
-                        lowestcard = Convert.ToByte(card);
+                        if (Convert.ToByte(card) > highestcard)
+                        {
+                            highestcard = Convert.ToByte(card);
+                        }
+                        else if (Convert.ToByte(card) < lowestcard)
+                        {
+                            lowestcard = Convert.ToByte(card);
+                        }
                     }
                 }
                 if (haswild && Convert.ToByte(LBL_Playcard.Content) > 5 && CPUHand.Count != 0)
