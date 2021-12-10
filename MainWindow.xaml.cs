@@ -67,6 +67,7 @@ namespace Project24
             BTN_CardV.Content = PlrHand[4];
             LBL_CPUDeck.Content = CPUDeck.cards.Count();
             LBL_PlrDeck.Content = PlrDeck.cards.Count();
+            ReadCPUHand();
         }
         
         private void EnableCards()
@@ -348,6 +349,7 @@ namespace Project24
                 bool haswild = false;
                 bool hasequal = false;
                 bool hasgreater = false;
+                bool hasnumbercard = false;
                 byte highestcard = 0;
                 byte lowestcard = 10;
                 byte lowestgreater = 10;
@@ -371,6 +373,7 @@ namespace Project24
                     }
                     if (card != "Wild")
                     {
+                        hasnumbercard = true;
                         if (Convert.ToByte(card) > highestcard)
                         {
                             highestcard = Convert.ToByte(card);
@@ -388,17 +391,10 @@ namespace Project24
                     CPUHand.Remove("Wild");
                     remainder = 0;
                 }
-                else if (hasequal)
+                if (hasequal)
                 {
                     LBL_Playcard.Foreground = Brushes.Red;
                     CPUHand.Remove(Convert.ToString(LBL_Playcard.Content));
-                    remainder = 0;
-                }
-                else if (lowestcard > Convert.ToByte(LBL_Playcard.Content))
-                {
-                    LBL_Playcard.Foreground = Brushes.Red;
-                    LBL_Playcard.Content = Convert.ToString(lowestcard);
-                    CPUHand.Remove(Convert.ToString(lowestcard));
                     remainder = 0;
                 }
                 else if (hasgreater && lowestcard < Convert.ToByte(LBL_Playcard.Content) - 3)
@@ -417,14 +413,14 @@ namespace Project24
                 }
                 else
                 {
-                    if (highestcard == 0)
+                    if (highestcard == 0 && CPUHand.Count > 0)
                     {
                         remainder = 0;
                         LBL_Playcard.Foreground = Brushes.Red;
                         LBL_Playcard.Content = "Wild";
                         CPUHand.Remove("Wild");
                     }
-                    else
+                    else if (hasnumbercard && highestcard != 0 && CPUHand.Count > 0)
                     {
                         remainder = Convert.ToSByte(Convert.ToByte(LBL_Playcard.Content) - highestcard);
                         if (remainder < 0)
@@ -434,6 +430,10 @@ namespace Project24
                         LBL_Playcard.Foreground = Brushes.Red;
                         LBL_Playcard.Content = Convert.ToString(highestcard);
                         CPUHand.Remove(Convert.ToString(highestcard));
+                    }
+                    else
+                    {
+                        PrepEndTurn(true, Convert.ToByte(LBL_Playcard.Content));
                     }
                 }
                 if (RCT_EcardV.IsVisible)
