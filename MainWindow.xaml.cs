@@ -411,30 +411,27 @@ namespace Project24
                     LBL_Playcard.Content = Convert.ToString(lowestcard);
                     CPUHand.Remove(Convert.ToString(lowestcard));
                 }
-                else
+                if (highestcard == 0 && CPUHand.Count > 0)
                 {
-                    if (highestcard == 0 && CPUHand.Count > 0)
+                    remainder = 0;
+                    LBL_Playcard.Foreground = Brushes.Red;
+                    LBL_Playcard.Content = "Wild";
+                    CPUHand.Remove("Wild");
+                }
+                else if (hasnumbercard && highestcard != 0 && CPUHand.Count > 0)
+                {
+                    remainder = Convert.ToSByte(Convert.ToByte(LBL_Playcard.Content) - highestcard);
+                    if (remainder < 0)
                     {
                         remainder = 0;
-                        LBL_Playcard.Foreground = Brushes.Red;
-                        LBL_Playcard.Content = "Wild";
-                        CPUHand.Remove("Wild");
                     }
-                    else if (hasnumbercard && highestcard != 0 && CPUHand.Count > 0)
-                    {
-                        remainder = Convert.ToSByte(Convert.ToByte(LBL_Playcard.Content) - highestcard);
-                        if (remainder < 0)
-                        {
-                            remainder = 0;
-                        }
-                        LBL_Playcard.Foreground = Brushes.Red;
-                        LBL_Playcard.Content = Convert.ToString(highestcard);
-                        CPUHand.Remove(Convert.ToString(highestcard));
-                    }
-                    else
-                    {
-                        PrepEndTurn(true, Convert.ToByte(LBL_Playcard.Content));
-                    }
+                    LBL_Playcard.Foreground = Brushes.Red;
+                    LBL_Playcard.Content = Convert.ToString(highestcard);
+                    CPUHand.Remove(Convert.ToString(highestcard));
+                }
+                else
+                {
+                    PrepEndTurn(true, Convert.ToByte(LBL_Playcard.Content));
                 }
                 if (RCT_EcardV.IsVisible)
                 {
