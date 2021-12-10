@@ -396,11 +396,15 @@ namespace Project24
                     CPUHand.Remove("Wild");
                     remainder = 0;
                 }
-                if (hasequal)
+                else if (hasequal)
                 {
                     LBL_Playcard.Foreground = Brushes.Red;
                     CPUHand.Remove(Convert.ToString(LBL_Playcard.Content));
                     remainder = 0;
+                }
+                else if (hasgreater && Convert.ToByte(LBL_Playcard.Content) <= 5 && lowestcard > Convert.ToByte(Convert.ToByte(LBL_Playcard.Content) + 2))
+                {
+                    PrepEndTurn(true, Convert.ToByte(LBL_Playcard.Content));
                 }
                 else if (hasgreater && lowestcard > Convert.ToByte(LBL_Playcard.Content))
                 {
