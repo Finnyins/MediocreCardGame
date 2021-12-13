@@ -422,14 +422,14 @@ namespace Project24
                 }
                 else if (hasgreater && highestless >= Convert.ToByte(Convert.ToByte(LBL_Playcard.Content) - 1) && lowestgreater > Convert.ToByte(Convert.ToByte(LBL_Playcard.Content) + 2))
                 {
-                    remainder = Convert.ToSByte(Convert.ToByte(LBL_Playcard.Content) - highestcard);
+                    remainder = Convert.ToSByte(Convert.ToByte(LBL_Playcard.Content) - highestless);
                     if (remainder < 0)
                     {
                         remainder = 0;
                     }
                     LBL_Playcard.Foreground = Brushes.Red;
-                    LBL_Playcard.Content = Convert.ToString(highestcard);
-                    CPUHand.Remove(Convert.ToString(highestcard));
+                    LBL_Playcard.Content = Convert.ToString(highestless);
+                    CPUHand.Remove(Convert.ToString(highestless));
                 }
 
                 else if (hasgreater && highestless < Convert.ToByte(Convert.ToByte(LBL_Playcard.Content) - 2))
