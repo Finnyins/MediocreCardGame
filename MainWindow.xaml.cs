@@ -446,6 +446,13 @@ namespace Project24
                     LBL_Playcard.Content = "Wild";
                     CPUHand.Remove("Wild");
                 }
+                else if (hasgreater)
+                {
+                    remainder = 0;
+                    LBL_Playcard.Foreground = Brushes.Red;
+                    LBL_Playcard.Content = lowestgreater;
+                    CPUHand.Remove(lowestgreater);
+                }
                 else if (hasnumbercard && highestcard != 0 && CPUHand.Count > 0)
                 {
                     remainder = Convert.ToSByte(Convert.ToByte(LBL_Playcard.Content) - highestcard);
@@ -481,6 +488,7 @@ namespace Project24
                 {
                     RCT_EcardI.Visibility = Visibility.Hidden;
                 }
+                Trace.WriteLine($"{haswild}, {hasequal}, {hasgreater}, {hasnumbercard}, {highestcard}, {lowestcard}, {lowestgreater}, {highestless}");
                 PrepEndTurn(true, Convert.ToByte(remainder));
             }
         }
