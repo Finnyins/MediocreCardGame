@@ -4,16 +4,18 @@
 
 
 using System;
+using System.Security.Cryptography;
+using System.Text;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Project24
 {
     public class SCR_Deck
     {
+        RNGCryptoServiceProvider shuffle = new RNGCryptoServiceProvider();
         public List<string> cards;
         public SCR_Deck()
         {
@@ -24,8 +26,11 @@ namespace Project24
         {
             if (cards.Count > 0)
             {
-                Random rng = new Random();
-                byte index = Convert.ToByte(rng.Next(cards.Count));
+                byte[] rand = new byte[4];
+                shuffle.GetBytes(rand);
+                int val = BitConverter.ToInt32(rand, 0);
+                int card = new Random(val).Next(cards.Count());
+                byte index = Convert.ToByte(card);
                 string pullcard = cards[index];
                 cards.RemoveAt(index);
                 return pullcard;
