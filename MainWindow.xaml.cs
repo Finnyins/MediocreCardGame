@@ -450,8 +450,8 @@ namespace Project24
                 {
                     remainder = 0;
                     LBL_Playcard.Foreground = Brushes.Red;
-                    LBL_Playcard.Content = lowestgreater;
-                    CPUHand.Remove(lowestgreater);
+                    LBL_Playcard.Content = Convert.ToString(lowestgreater);
+                    CPUHand.Remove(Convert.ToString(lowestgreater));
                 }
                 else if (hasnumbercard && highestcard != 0 && CPUHand.Count > 0)
                 {
