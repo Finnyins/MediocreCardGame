@@ -350,6 +350,7 @@ namespace Project24
                 bool hasequal = false;
                 bool hasgreater = false;
                 bool hasnumbercard = false;
+                bool playedcard = true;
                 byte highestcard = 0;
                 byte lowestcard = 10;
                 byte lowestgreater = 10;
@@ -466,29 +467,32 @@ namespace Project24
                 }
                 else
                 {
+                    playedcard = false;
                     PrepEndTurn(true, Convert.ToByte(LBL_Playcard.Content));
                 }
-                if (RCT_EcardV.IsVisible)
+                if (playedcard)
                 {
-                    RCT_EcardV.Visibility = Visibility.Hidden;
+                    if (RCT_EcardV.IsVisible)
+                    {
+                        RCT_EcardV.Visibility = Visibility.Hidden;
+                    }
+                    else if (RCT_EcardIV.IsVisible)
+                    {
+                        RCT_EcardIV.Visibility = Visibility.Hidden;
+                    }
+                    else if (RCT_EcardIII.IsVisible)
+                    {
+                        RCT_EcardIII.Visibility = Visibility.Hidden;
+                    }
+                    else if (RCT_EcardII.IsVisible)
+                    {
+                        RCT_EcardII.Visibility = Visibility.Hidden;
+                    }
+                    else if (RCT_EcardI.IsVisible)
+                    {
+                        RCT_EcardI.Visibility = Visibility.Hidden;
+                    }
                 }
-                else if (RCT_EcardIV.IsVisible)
-                {
-                    RCT_EcardIV.Visibility = Visibility.Hidden;
-                }
-                else if (RCT_EcardIII.IsVisible)
-                {
-                    RCT_EcardIII.Visibility = Visibility.Hidden;
-                }
-                else if (RCT_EcardII.IsVisible)
-                {
-                    RCT_EcardII.Visibility = Visibility.Hidden;
-                }
-                else if (RCT_EcardI.IsVisible)
-                {
-                    RCT_EcardI.Visibility = Visibility.Hidden;
-                }
-                Trace.WriteLine($"{haswild}, {hasequal}, {hasgreater}, {hasnumbercard}, {highestcard}, {lowestcard}, {lowestgreater}, {highestless}");
                 PrepEndTurn(true, Convert.ToByte(remainder));
             }
         }
