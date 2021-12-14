@@ -48,7 +48,7 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.1.1" Canvas.Top="450" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16"/>
+            <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.2.2.1" Canvas.Top="450" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16"/>
             <Label x:Name="LBL_Title_Copy" Content="The" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="36" Height="45" Canvas.Top="-12"/>
         </Canvas>
         <Grid x:Name="GRD_Play" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5" Visibility="Hidden" IsEnabled="False">

@@ -50,6 +50,10 @@ namespace Project24
 
         public void StartGame()
         {
+            PlrPoints = 0;
+            CPUPoints = 0;
+            LBL_PlrPnt.Content = PlrPoints;
+            LBL_CPUPnts.Content = CPUPoints;
             DealCards();
             PlayerTurn();
         }
@@ -67,7 +71,16 @@ namespace Project24
             BTN_CardV.Content = PlrHand[4];
             LBL_CPUDeck.Content = CPUDeck.cards.Count();
             LBL_PlrDeck.Content = PlrDeck.cards.Count();
-            ReadCPUHand();
+            RCT_EcardI.Visibility = Visibility.Visible;
+            RCT_EcardII.Visibility = Visibility.Visible;
+            RCT_EcardIII.Visibility = Visibility.Visible;
+            RCT_EcardIV.Visibility = Visibility.Visible;
+            RCT_EcardV.Visibility = Visibility.Visible;
+            BTN_CardI.Visibility = Visibility.Visible;
+            BTN_CardII.Visibility = Visibility.Visible;
+            BTN_CardIII.Visibility = Visibility.Visible;
+            BTN_CardIV.Visibility = Visibility.Visible;
+            BTN_CardV.Visibility = Visibility.Visible;
         }
         
         private void EnableCards()
@@ -120,10 +133,11 @@ namespace Project24
         }
         private void PlayerTurn()
         {
+            Trace.WriteLine("Player Turn");
             LBL_Who.Content = "Your";
             turn = true;
             EnableCards();
-            if (PlrHand.Count < 1)
+            if (PlrHand.Count == 0)
             {
                 turn = false;
                 PrepEndTurn(true, 0);
@@ -132,13 +146,14 @@ namespace Project24
 
         async Task PlayerDefend()
         {
+            Trace.WriteLine("Player Defend");
             LBL_Who.Content = "Your";
             LBL_Turn.Content = "Turn";
             defend = true;
             EnableCards();
             BTN_Pass.IsEnabled = true;
             BTN_Pass.Visibility = Visibility.Visible;
-            if (PlrHand.Count < 1)
+            if (PlrHand.Count == 0)
             {
                 turn = false;
                 if (LBL_Playcard.Content == "Wild")
@@ -152,16 +167,16 @@ namespace Project24
             }
         }
 
-        private async void CPUTurn()
+        private void CPUTurn()
         {
+            Trace.WriteLine("CPU Turn");
+            ReadCPUHand();
             byte highestcard = 0;
-            if (CPUHand.Count == 0)
-            {
-                PrepEndTurn(false, 0);
-            }
+            byte cards = 0;
             bool hasonlywilds = true;
             foreach (string card in CPUHand)
             {
+                cards++;
                 if (card != "Wild")
                 {
                     hasonlywilds = false;
@@ -171,7 +186,11 @@ namespace Project24
                     }
                 }
             }
-            if (hasonlywilds && CPUHand.Count != 0)
+            if (cards == 0)
+            {
+                LBL_Playcard.Visibility = Visibility.Visible;
+            }
+            if (hasonlywilds && cards != 0)
             {
                 LBL_Playcard.Visibility = Visibility.Visible;
                 LBL_Playcard.Foreground = Brushes.Red;
@@ -205,15 +224,21 @@ namespace Project24
             {
                 RCT_EcardI.Visibility = Visibility.Hidden;
             }
-            LBL_Playcard.Visibility = Visibility.Visible;
+            if (cards != 0)
+            {
+                LBL_Playcard.Visibility = Visibility.Visible;
+            }
             if (LBL_Playcard.Content == "Wild")
             {
-                defend = false;
                 PrepEndTurn(false, 0);
+            }
+            else if (cards != 0)
+            {
+                PlayerDefend();
             }
             else
             {
-                await PlayerDefend();
+                PrepEndTurn(false, 0);
             }
         }
 
@@ -250,6 +275,7 @@ namespace Project24
 
         async Task EndTurn(bool plrscore, byte points)
         {
+            Trace.WriteLine("End Turn");
             await Task.Delay(2500);
             LBL_Playcard.Visibility = Visibility.Hidden;
             BTN_Pass.IsEnabled = false;
@@ -268,17 +294,6 @@ namespace Project24
                 LBL_Who.Content = "Your";
                 LBL_Turn.Content = "Turn";
             }
-            string CPUdraw = null;
-            if (CPUHand.Count < 5)
-            {
-                CPUdraw = CPUDeck.Draw();
-            }
-            if (CPUdraw != null)
-            {
-                CPUHand.Add(CPUdraw);
-                RCT_EcardV.Visibility = Visibility.Visible;
-                RCT_EcardIV.Visibility = Visibility.Visible;
-            }
             string Plrdraw = null;
             if (PlrHand.Count < 5)
             {
@@ -289,6 +304,18 @@ namespace Project24
                 PlrHand.Add(Plrdraw);
                 BTN_CardV.Content = PlrHand[4];
                 BTN_CardV.Visibility = Visibility.Visible;
+            }
+            string CPUdraw = null;
+            if (CPUHand.Count < 5)
+            {
+                CPUdraw = CPUDeck.Draw();
+            }
+            if (CPUdraw != null)
+            {
+                CPUHand.Add(CPUdraw);
+                RCT_EcardV.Visibility = Visibility.Visible;
+                RCT_EcardIV.Visibility = Visibility.Visible;
+                RCT_EcardIII.Visibility = Visibility.Visible;
             }
             LBL_CPUDeck.Content = CPUDeck.cards.Count();
             LBL_PlrDeck.Content = PlrDeck.cards.Count();
@@ -335,16 +362,13 @@ namespace Project24
 
         private void CPUDefend()
         {
+            Trace.WriteLine("CPU Defend");
             if (LBL_Playcard.Content == "Wild")
             {
                 PrepEndTurn(true, 0);
             }
             else
             {
-                if (CPUHand.Count < 1)
-                {
-                    PrepEndTurn(true, Convert.ToByte(LBL_Playcard.Content));
-                }
                 sbyte remainder = 0;
                 bool haswild = false;
                 bool hasequal = false;
@@ -355,8 +379,10 @@ namespace Project24
                 byte lowestcard = 10;
                 byte lowestgreater = 10;
                 byte highestless = 0;
+                byte cards = 0;
                 foreach (string card in CPUHand)
                 {
+                    cards++;
                     if (card != "Wild")
                     {
                         hasnumbercard = true;
@@ -390,7 +416,12 @@ namespace Project24
                         }
                     }
                 }
-                if (haswild && Convert.ToByte(LBL_Playcard.Content) > 5 && CPUHand.Count != 0)
+                if (cards == 0)
+                {
+                    LBL_Playcard.Visibility = Visibility.Hidden;
+                    remainder = Convert.ToSByte(LBL_Playcard.Content);
+                }
+                else if (haswild && Convert.ToByte(LBL_Playcard.Content) > 5 && CPUHand.Count != 0)
                 {
                     LBL_Playcard.Foreground = Brushes.Red;
                     LBL_Playcard.Content = "Wild";
@@ -405,7 +436,8 @@ namespace Project24
                 }
                 else if (hasgreater && Convert.ToByte(LBL_Playcard.Content) <= 5 && lowestcard > Convert.ToByte(Convert.ToByte(LBL_Playcard.Content) + 2))
                 {
-                    PrepEndTurn(true, Convert.ToByte(LBL_Playcard.Content));
+                    playedcard = false;
+                    remainder = Convert.ToSByte(LBL_Playcard.Content);
                 }
                 else if (hasgreater && lowestcard > Convert.ToByte(LBL_Playcard.Content))
                 {
@@ -468,7 +500,7 @@ namespace Project24
                 else
                 {
                     playedcard = false;
-                    PrepEndTurn(true, Convert.ToByte(LBL_Playcard.Content));
+                    remainder = Convert.ToSByte(LBL_Playcard.Content);
                 }
                 if (playedcard)
                 {
@@ -689,6 +721,9 @@ namespace Project24
         {
             if (defend)
             {
+                BTN_Pass.IsEnabled = false;
+                BTN_Pass.Visibility = Visibility.Hidden;
+                DisableCards();
                 if (LBL_Playcard.Content == "Wild")
                 {
                     defend = false;
