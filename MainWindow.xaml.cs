@@ -188,7 +188,7 @@ namespace Project24
             }
             if (cards == 0)
             {
-                LBL_Playcard.Visibility = Visibility.Visible;
+                LBL_Playcard.Visibility = Visibility.Hidden;
             }
             if (hasonlywilds && cards != 0)
             {
@@ -197,12 +197,17 @@ namespace Project24
                 LBL_Playcard.Content = "Wild";
                 CPUHand.Remove("Wild");
             }
-            else
+            else if (cards != 0)
             {
                 LBL_Playcard.Visibility = Visibility.Visible;
                 LBL_Playcard.Foreground = Brushes.Red;
                 LBL_Playcard.Content = Convert.ToString(highestcard);
                 CPUHand.Remove(Convert.ToString(highestcard));
+            }
+            else
+            {
+                LBL_Playcard.Visibility = Visibility.Hidden;
+                LBL_Playcard.Content = 0;
             }
             if (RCT_EcardV.IsVisible)
             {
@@ -418,7 +423,6 @@ namespace Project24
                 }
                 if (cards == 0)
                 {
-                    LBL_Playcard.Visibility = Visibility.Hidden;
                     remainder = Convert.ToSByte(LBL_Playcard.Content);
                 }
                 else if (haswild && Convert.ToByte(LBL_Playcard.Content) > 5 && CPUHand.Count != 0)
