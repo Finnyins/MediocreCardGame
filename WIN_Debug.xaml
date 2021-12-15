@@ -12,7 +12,24 @@
             <ColumnDefinition Width="433*"/>
             <ColumnDefinition Width="103*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="TBX_Debug" HorizontalAlignment="Left" Height="420" Margin="0,0,-0.4,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="794" Grid.ColumnSpan="3" Foreground="White" Background="Black" BorderBrush="Black" SelectionBrush="White" FontFamily="Bastion" FontSize="16" IsReadOnly="True" Focusable="False" AllowDrop="True" IsTabStop="False"/>
+        <TextBox x:Name="TBX_Debug" Margin="0,0,-0.4,0" TextWrapping="Wrap" Grid.ColumnSpan="3" Foreground="White" Background="Black" BorderBrush="Black" SelectionBrush="White" FontFamily="Bastion" FontSize="16" IsReadOnly="True" Focusable="False" AllowDrop="True" IsTabStop="False" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Height="420">
+            <TextBox.LayoutTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBox.LayoutTransform>
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
 
     </Grid>
 </Window>

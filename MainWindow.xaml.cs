@@ -52,7 +52,7 @@ namespace Project24
         {
             InitializeComponent();
             RoutedCommand Debug = new RoutedCommand();
-            Debug.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control));
+            Debug.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control | ModifierKeys.Shift));
             CommandBindings.Add(new CommandBinding(Debug, DebugToggle));
         }
 
