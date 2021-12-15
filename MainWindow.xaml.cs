@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.InteropServices;
 
 namespace Project24
 {
@@ -27,12 +28,16 @@ namespace Project24
     /// </summary>
     public partial class MainWindow : Window
     {
+        WIN_Debug dbug;
+
+        bool Debug = false;
+
         byte Gamemode = 0;
 
         List<MDL_Stats> stats = StatsManager.Load();
 
-        SCR_Deck PlrDeck = new SCR_Deck();
-        SCR_Deck CPUDeck = new SCR_Deck();
+        SCR_Deck PlrDeck = new SCR_Deck(false);
+        SCR_Deck CPUDeck = new SCR_Deck(false);
 
         bool turn = false;
         bool defend = false;
@@ -46,6 +51,35 @@ namespace Project24
         public MainWindow()
         {
             InitializeComponent();
+            RoutedCommand Debug = new RoutedCommand();
+            Debug.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(Debug, DebugToggle));
+        }
+
+        private void DebugToggle(Object sender, ExecutedRoutedEventArgs a)
+        {
+            if (Debug)
+            {
+                LBL_Debug.Visibility = Visibility.Hidden;
+                CBX_Debug.IsEnabled = false;
+                CBX_Debug.Visibility = Visibility.Hidden;
+                CBX_Debug.IsChecked = false;
+                Debug = false;
+                dbug.Close();
+            }
+            else
+            {
+                LBL_Debug.Visibility = Visibility.Visible;
+                CBX_Debug.IsEnabled = true;
+                CBX_Debug.Visibility = Visibility.Visible;
+                Debug = true;
+                dbug = new WIN_Debug();
+            }
+        }
+
+        private void ConsoleWriteLine(string inp)
+        {
+            dbug.DebugWriteLine(inp);
         }
 
         public void StartGame()
@@ -81,6 +115,10 @@ namespace Project24
             BTN_CardIII.Visibility = Visibility.Visible;
             BTN_CardIV.Visibility = Visibility.Visible;
             BTN_CardV.Visibility = Visibility.Visible;
+            if (Debug)
+            {
+                ReadCPUHand();
+            }
         }
         
         private void EnableCards()
@@ -133,7 +171,10 @@ namespace Project24
         }
         private void PlayerTurn()
         {
-            Trace.WriteLine("Player Turn");
+            if (Debug)
+            {
+                ConsoleWriteLine("Player Turn");
+            }
             LBL_Who.Content = "Your";
             turn = true;
             EnableCards();
@@ -146,7 +187,10 @@ namespace Project24
 
         async Task PlayerDefend()
         {
-            Trace.WriteLine("Player Defend");
+            if (Debug)
+            {
+                ConsoleWriteLine("Player Defend");
+            }
             LBL_Who.Content = "Your";
             LBL_Turn.Content = "Turn";
             defend = true;
@@ -169,7 +213,10 @@ namespace Project24
 
         private void CPUTurn()
         {
-            Trace.WriteLine("CPU Turn");
+            if (Debug)
+            {
+                ConsoleWriteLine("CPU Turn");
+            }
             ReadCPUHand();
             byte highestcard = 0;
             byte cards = 0;
@@ -255,12 +302,15 @@ namespace Project24
 
         private void ReadCPUHand()
         {
-            string cards = "";
-            foreach (string card in CPUHand)
+            if (Debug)
             {
-                cards += $"{card}, ";
+                string cards = "";
+                foreach (string card in CPUHand)
+                {
+                    cards += $"{card}, ";
+                }
+                ConsoleWriteLine(cards);
             }
-            Trace.WriteLine(cards);
         }
         private void GRD_Main_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -280,7 +330,10 @@ namespace Project24
 
         async Task EndTurn(bool plrscore, byte points)
         {
-            Trace.WriteLine("End Turn");
+            if (Debug)
+            {
+                ConsoleWriteLine("End Turn");
+            }
             await Task.Delay(2500);
             LBL_Playcard.Visibility = Visibility.Hidden;
             BTN_Pass.IsEnabled = false;
@@ -367,7 +420,10 @@ namespace Project24
 
         private void CPUDefend()
         {
-            Trace.WriteLine("CPU Defend");
+            if (Debug)
+            {
+                ConsoleWriteLine("CPU Defend");
+            }
             if (LBL_Playcard.Content == "Wild")
             {
                 PrepEndTurn(true, 0);
@@ -747,6 +803,16 @@ namespace Project24
             CNV_Menu.Visibility = Visibility.Hidden;
             CNV_GameSelect.IsEnabled = true;
             CNV_GameSelect.Visibility = Visibility.Visible;
+            if (Debug)
+            {
+                CBX_Debug.IsEnabled = true;
+                CBX_Debug.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                CBX_Debug.IsEnabled = false;
+                CBX_Debug.Visibility = Visibility.Hidden;
+            }
         }
 
         private void BTN_Stats_Click(object sender, RoutedEventArgs e)
@@ -790,8 +856,13 @@ namespace Project24
             GRD_Play.IsEnabled = true;
             GRD_Play.Visibility = Visibility.Visible;
             Gamemode = 0;
-            PlrDeck = new SCR_Deck();
-            CPUDeck = new SCR_Deck();
+            bool dbdeck = false;
+            if (Debug && CBX_Debug.IsChecked == true)
+            {
+                dbdeck = true;
+            }
+            PlrDeck = new SCR_Deck(dbdeck);
+            CPUDeck = new SCR_Deck(dbdeck);
             StartGame();
         }
 
@@ -802,7 +873,12 @@ namespace Project24
             GRD_Play.IsEnabled = true;
             GRD_Play.Visibility = Visibility.Visible;
             Gamemode = 1;
-            PlrDeck = new SCR_Deck();
+            bool dbdeck = false;
+            if (Debug && CBX_Debug.IsChecked == true)
+            {
+                dbdeck = true;
+            }
+            PlrDeck = new SCR_Deck(dbdeck);
             CPUDeck = PlrDeck;
             StartGame();
         }
