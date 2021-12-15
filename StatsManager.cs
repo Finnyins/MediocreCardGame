@@ -45,6 +45,15 @@ namespace Project24
             }
         }
 
+        public static void Reset()
+        {
+            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString()))
+            {
+                conn.Execute("drop table Stats");
+            }
+            VerifyTable();
+        }
+
         private static string LoadConnectionString(string id = "DAT_Stats")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;

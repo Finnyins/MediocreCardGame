@@ -56,6 +56,12 @@ namespace Project24
             CommandBindings.Add(new CommandBinding(Debug, DebugToggle));
         }
 
+        private async Task TakeFocus()
+        {
+            await Task.Delay(100);
+            this.Focus();
+        }
+
         private void DebugToggle(Object sender, ExecutedRoutedEventArgs a)
         {
             if (Debug)
@@ -64,6 +70,8 @@ namespace Project24
                 CBX_Debug.IsEnabled = false;
                 CBX_Debug.Visibility = Visibility.Hidden;
                 CBX_Debug.IsChecked = false;
+                BTN_Reset.IsEnabled = false;
+                BTN_Reset.Visibility = Visibility.Hidden;
                 Debug = false;
                 dbug.Close();
             }
@@ -72,8 +80,12 @@ namespace Project24
                 LBL_Debug.Visibility = Visibility.Visible;
                 CBX_Debug.IsEnabled = true;
                 CBX_Debug.Visibility = Visibility.Visible;
+                BTN_Reset.IsEnabled = true;
+                BTN_Reset.Visibility = Visibility.Visible;
                 Debug = true;
                 dbug = new WIN_Debug();
+                this.Focus();
+                TakeFocus();
             }
         }
 
@@ -821,6 +833,16 @@ namespace Project24
             CNV_Menu.Visibility = Visibility.Hidden;
             CNV_Stats.IsEnabled = true;
             CNV_Stats.Visibility = Visibility.Visible;
+            if (Debug)
+            {
+                BTN_Reset.IsEnabled = true;
+                BTN_Reset.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                BTN_Reset.IsEnabled = false;
+                BTN_Reset.Visibility = Visibility.Hidden;
+            }
             stats = StatsManager.Load();
             LBL_ClassWin.Content = stats[0].Wins;
             LBL_ClassLoss.Content = stats[0].Losses;
@@ -881,6 +903,19 @@ namespace Project24
             PlrDeck = new SCR_Deck(dbdeck);
             CPUDeck = PlrDeck;
             StartGame();
+        }
+
+        private void BTN_Reset_Click(object sender, RoutedEventArgs e)
+        {
+            if (Debug)
+            {
+                MessageBoxResult delete = MessageBox.Show("Delete data?", "Wipe Data", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (delete == MessageBoxResult.Yes)
+                {
+                    StatsManager.Reset();
+                    BTN_Stats_Click(null, null);
+                }
+            }
         }
     }
 }

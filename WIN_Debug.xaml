@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project24"
         mc:Ignorable="d"
-        Title="Debug" Height="450" Width="800" Background="Black" Foreground="White" Visibility="Hidden">
+        Title="Debug" Height="450" Width="800" Background="Black" Foreground="White" Visibility="Hidden" Focusable="False" IsTabStop="False" ToolTip="Debug Window">
     <Grid x:Name="GRD_Debug">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="258*"/>
             <ColumnDefinition Width="433*"/>
             <ColumnDefinition Width="103*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="TBX_Debug" HorizontalAlignment="Left" Height="420" Margin="0,0,-0.4,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="794" Grid.ColumnSpan="3" Foreground="White" Background="Black" BorderBrush="Black" SelectionBrush="White" FontFamily="Bastion" FontSize="16" IsReadOnly="True"/>
+        <TextBox x:Name="TBX_Debug" HorizontalAlignment="Left" Height="420" Margin="0,0,-0.4,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="794" Grid.ColumnSpan="3" Foreground="White" Background="Black" BorderBrush="Black" SelectionBrush="White" FontFamily="Bastion" FontSize="16" IsReadOnly="True" Focusable="False" AllowDrop="True" IsTabStop="False"/>
 
     </Grid>
 </Window>
