@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Finn O'Brien
+// Project 24 (Debug Window)
+// 12/15/2021
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
