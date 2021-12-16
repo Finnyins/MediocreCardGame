@@ -857,6 +857,10 @@ namespace Project24
             MessageBoxResult quit = MessageBox.Show("Quit the game?\n\n\nHonestly I don't blame you", "Quit Game", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
             if (quit == MessageBoxResult.Yes)
             {
+                if (Debug)
+                {
+                    dbug.Close();
+                }
                 Close();
             }
         }
