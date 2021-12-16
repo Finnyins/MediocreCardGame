@@ -30,6 +30,8 @@ namespace Project24
     {
         WIN_Debug dbug;
 
+        bool simonwins = false;
+
         bool Debug = false;
 
         byte Gamemode = 0;
@@ -54,6 +56,9 @@ namespace Project24
             RoutedCommand Debug = new RoutedCommand();
             Debug.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control | ModifierKeys.Shift));
             CommandBindings.Add(new CommandBinding(Debug, DebugToggle));
+            RoutedCommand simon = new RoutedCommand();
+            simon.InputGestures.Add(new KeyGesture(Key.W, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(simon, SimonWins));
         }
 
         private async Task TakeFocus()
@@ -61,6 +66,33 @@ namespace Project24
             await Task.Delay(100);
             this.Focus();
         }
+
+
+        private void SimonWins(Object sender, ExecutedRoutedEventArgs a)
+        {
+            if (Debug)
+            {
+                if (simonwins)
+                {
+                    simonwins = false;
+                    LBL_Header.Content = "The";
+                    LBL_Title.Content = "Mediocre Card Game";
+                    LBL_SubTitle.Content = "A Rudimentary Card Game of Sorts";
+                }
+                else
+                {
+                    simonwins = true;
+                    LBL_Header.Content = "";
+                    LBL_Title.Content = "Simon Wins";
+                    LBL_SubTitle.Content = "Wow he's so good at this game";
+                }
+            }
+            else
+            {
+                MessageBox.Show("This is a debug feature. Please enable debug mode to use it.", "Debug not enabled", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
 
         private void DebugToggle(Object sender, ExecutedRoutedEventArgs a)
         {
@@ -73,6 +105,7 @@ namespace Project24
                 BTN_Reset.IsEnabled = false;
                 BTN_Reset.Visibility = Visibility.Hidden;
                 Debug = false;
+                simonwins = false;
                 dbug.Close();
             }
             else
@@ -391,7 +424,12 @@ namespace Project24
             LBL_PlrDeck.Content = PlrDeck.cards.Count();
             if (PlrHand.Count == 0 && CPUHand.Count == 0)
             {
-                if (PlrPoints > CPUPoints)
+                if (simonwins)
+                {
+                    LBL_Victor.Content = "Simon";
+                    stats[Gamemode].Wins += 1;
+                }
+                else if (PlrPoints > CPUPoints)
                 {
                     LBL_Victor.Content = "Player";
                     stats[Gamemode].Wins += 1;
