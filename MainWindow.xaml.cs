@@ -59,6 +59,7 @@ namespace Project24
             RoutedCommand simon = new RoutedCommand();
             simon.InputGestures.Add(new KeyGesture(Key.W, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(simon, SimonWins));
+            MessageBox.Show("Control + W", "Simon Wins", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private async Task TakeFocus()
@@ -78,6 +79,7 @@ namespace Project24
                     LBL_Header.Content = "The";
                     LBL_Title.Content = "Mediocre Card Game";
                     LBL_SubTitle.Content = "A Rudimentary Card Game of Sorts";
+                    LBL_StatsTitle.Content = "Stats";
                 }
                 else
                 {
@@ -85,6 +87,11 @@ namespace Project24
                     LBL_Header.Content = "";
                     LBL_Title.Content = "Simon Wins";
                     LBL_SubTitle.Content = "Wow he's so good at this game";
+                    LBL_StatsTitle.Content = "Simon Wins";
+                }
+                if (CNV_Stats.IsVisible)
+                {
+                    BTN_Stats_Click(null, null);
                 }
             }
             else
@@ -884,13 +891,25 @@ namespace Project24
                 BTN_Reset.IsEnabled = false;
                 BTN_Reset.Visibility = Visibility.Hidden;
             }
-            stats = StatsManager.Load();
-            LBL_ClassWin.Content = stats[0].Wins;
-            LBL_ClassLoss.Content = stats[0].Losses;
-            LBL_ClassTies.Content = stats[0].Ties;
-            LBL_ShareWin.Content = stats[1].Wins;
-            LBL_ShareLoss.Content = stats[1].Losses;
-            LBL_ShareTie.Content = stats[1].Ties;
+            if (Debug && simonwins)
+            {
+                LBL_ClassWin.Content = 1000;
+                LBL_ClassLoss.Content = 0;
+                LBL_ClassTies.Content = 0;
+                LBL_ShareWin.Content = 1000;
+                LBL_ShareLoss.Content = 0;
+                LBL_ShareTie.Content = 0;
+            }
+            else
+            {
+                stats = StatsManager.Load();
+                LBL_ClassWin.Content = stats[0].Wins;
+                LBL_ClassLoss.Content = stats[0].Losses;
+                LBL_ClassTies.Content = stats[0].Ties;
+                LBL_ShareWin.Content = stats[1].Wins;
+                LBL_ShareLoss.Content = stats[1].Losses;
+                LBL_ShareTie.Content = stats[1].Ties;
+            }
         }
 
         private void BTN_Quit_Click(object sender, RoutedEventArgs e)
