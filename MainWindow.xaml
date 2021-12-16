@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project24"
         mc:Ignorable="d"
-        Title="The Mediocre Card Game" MinWidth="855.854" MinHeight="508.908" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsTabStop="False" SizeToContent="WidthAndHeight">
+        Title="The Mediocre Card Game" MinWidth="855.854" MinHeight="508.908" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsTabStop="False" SizeToContent="WidthAndHeight" Closing="FRM_Main_Closing">
     <Grid x:Name="GRD_Main" SizeChanged="GRD_Main_SizeChanged" RenderTransformOrigin="0.5,0.5" MinWidth="852" MinHeight="480" Margin="0,0,3.6,-0.8" ClipToBounds="True" SnapsToDevicePixels="True">
         <Grid.LayoutTransform>
             <TransformGroup>

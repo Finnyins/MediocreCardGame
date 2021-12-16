@@ -921,5 +921,13 @@ namespace Project24
                 }
             }
         }
+
+        private void FRM_Main_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (Debug)
+            {
+                dbug.Close();
+            }
+        }
     }
 }
