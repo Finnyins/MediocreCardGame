@@ -211,6 +211,7 @@ namespace Project24
             BTN_Pass.Visibility = Visibility.Visible;
             if (PlrHand.Count == 0)
             {
+                BTN_Pass.IsEnabled = false;
                 turn = false;
                 if (LBL_Playcard.Content == "Wild")
                 {
