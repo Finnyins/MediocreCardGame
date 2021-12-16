@@ -211,7 +211,6 @@ namespace Project24
             BTN_Pass.Visibility = Visibility.Visible;
             if (PlrHand.Count == 0)
             {
-                BTN_Pass.IsEnabled = false;
                 turn = false;
                 if (LBL_Playcard.Content == "Wild")
                 {
@@ -797,15 +796,18 @@ namespace Project24
                 BTN_Pass.IsEnabled = false;
                 BTN_Pass.Visibility = Visibility.Hidden;
                 DisableCards();
-                if (LBL_Playcard.Content == "Wild")
+                if (PlrHand.Count != 0)
                 {
-                    defend = false;
-                    EndTurn(false, 0);
-                }
-                else
-                {
-                    defend = false;
-                    EndTurn(false, Convert.ToByte(LBL_Playcard.Content));
+                    if (LBL_Playcard.Content == "Wild")
+                    {
+                        defend = false;
+                        EndTurn(false, 0);
+                    }
+                    else
+                    {
+                        defend = false;
+                        EndTurn(false, Convert.ToByte(LBL_Playcard.Content));
+                    }
                 }
             }
         }
