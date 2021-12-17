@@ -72,7 +72,7 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.3.1.2" Canvas.Top="450" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16"/>
+            <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.4.2" Canvas.Top="450" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16"/>
             <Label x:Name="LBL_Header" Content="The" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="36" Height="45" Canvas.Top="-12"/>
             <Label x:Name="LBL_Debug" Content="Debug Enabled" Canvas.Top="450" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="137" Canvas.Left="705" Background="#00000000" FontSize="16" Visibility="Hidden"/>
         </Canvas>
