@@ -59,7 +59,6 @@ namespace Project24
             RoutedCommand simon = new RoutedCommand();
             simon.InputGestures.Add(new KeyGesture(Key.W, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(simon, SimonWins));
-            MessageBox.Show("Control + W", "Simon Wins", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private async Task TakeFocus()
@@ -94,10 +93,6 @@ namespace Project24
                     BTN_Stats_Click(null, null);
                 }
             }
-            else
-            {
-                MessageBox.Show("This is a debug feature. Please enable debug mode to use it.", "Debug not enabled", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
         }
 
 
@@ -113,6 +108,14 @@ namespace Project24
                 BTN_Reset.Visibility = Visibility.Hidden;
                 Debug = false;
                 simonwins = false;
+                LBL_Header.Content = "The";
+                LBL_Title.Content = "Mediocre Card Game";
+                LBL_SubTitle.Content = "A Rudimentary Card Game of Sorts";
+                LBL_StatsTitle.Content = "Stats";
+                if (CNV_Stats.IsVisible)
+                {
+                    BTN_Stats_Click(null, null);
+                }
                 dbug.Close();
             }
             else
