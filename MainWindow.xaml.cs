@@ -28,7 +28,10 @@ namespace Project24
     /// </summary>
     public partial class MainWindow : Window
     {
-        WIN_Debug dbug;
+        double sizeX = 852;
+        double sizeY = 480.8;
+
+        WIN_Debug dbug = new WIN_Debug();
 
         bool simonwins = false;
 
@@ -53,6 +56,7 @@ namespace Project24
         public MainWindow()
         {
             InitializeComponent();
+            dbug.Close();
             RoutedCommand Debug = new RoutedCommand();
             Debug.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control | ModifierKeys.Shift));
             CommandBindings.Add(new CommandBinding(Debug, DebugToggle));
@@ -370,6 +374,7 @@ namespace Project24
         private void GRD_Main_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             // This is nothing but the remnants of a failed scaling setup
+            ConsoleWriteLine("Grid");
         }
 
         async Task EndGame()
@@ -377,8 +382,8 @@ namespace Project24
             await Task.Delay(2500);
             CNV_Victory.IsEnabled = false;
             CNV_Victory.Visibility = Visibility.Hidden;
-            GRD_Play.IsEnabled = false;
-            GRD_Play.Visibility = Visibility.Hidden;
+            CNV_Play.IsEnabled = false;
+            CNV_Play.Visibility = Visibility.Hidden;
             CNV_Menu.IsEnabled = true;
             CNV_Menu.Visibility = Visibility.Visible;
         }
@@ -942,8 +947,8 @@ namespace Project24
         {
             CNV_GameSelect.IsEnabled = false;
             CNV_GameSelect.Visibility = Visibility.Hidden;
-            GRD_Play.IsEnabled = true;
-            GRD_Play.Visibility = Visibility.Visible;
+            CNV_Play.IsEnabled = true;
+            CNV_Play.Visibility = Visibility.Visible;
             Gamemode = 0;
             bool dbdeck = false;
             if (Debug && CBX_Debug.IsChecked == true)
@@ -959,8 +964,8 @@ namespace Project24
         {
             CNV_GameSelect.IsEnabled = false;
             CNV_GameSelect.Visibility = Visibility.Hidden;
-            GRD_Play.IsEnabled = true;
-            GRD_Play.Visibility = Visibility.Visible;
+            CNV_Play.IsEnabled = true;
+            CNV_Play.Visibility = Visibility.Visible;
             Gamemode = 1;
             bool dbdeck = false;
             if (Debug && CBX_Debug.IsChecked == true)
@@ -990,6 +995,68 @@ namespace Project24
             if (Debug)
             {
                 dbug.Close();
+            }
+        }
+
+        private void FRM_Main_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ConsoleWriteLine("Resize");
+            double scaleX = FRM_Main.Width / sizeX;
+            double scaleY = FRM_Main.Height / sizeY;
+            GRD_Main.Width *= scaleX;
+            GRD_Main.Height *= scaleY;
+            
+            /*
+            GRD_Main.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
+            CNV_Menu.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
+            CNV_Stats.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
+            CNV_GameSelect.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
+            CNV_Victory.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
+            CNV_Play.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
+            */
+        }
+
+        private void BTN_BackToMain_Click(object sender, RoutedEventArgs e)
+        {
+            CNV_Options.IsEnabled = false;
+            CNV_Options.Visibility = Visibility.Hidden;
+            CNV_Menu.IsEnabled = true;
+            CNV_Menu.Visibility = Visibility.Visible;
+        }
+
+        private void BTN_Options_Click(object sender, RoutedEventArgs e)
+        {
+            CNV_Menu.IsEnabled = false;
+            CNV_Menu.Visibility = Visibility.Hidden;
+            CNV_Options.IsEnabled = true;
+            CNV_Options.Visibility = Visibility.Visible;
+        }
+
+        private void RBT_480_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Height = 480;
+            Application.Current.MainWindow.Width = 852;
+        }
+
+        private void RBT_1080_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Height = 1080;
+            Application.Current.MainWindow.Width = 1920;
+        }
+
+        private void CBX_Fullscreen_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBX_Fullscreen.IsChecked == true)
+            {
+                this.WindowState = WindowState.Maximized;
+                this.WindowStyle = WindowStyle.None;
+                this.Topmost = true;
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.Topmost = false;
             }
         }
     }
