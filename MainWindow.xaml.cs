@@ -41,8 +41,8 @@ namespace Project24
 
         List<MDL_Stats> stats = StatsManager.Load();
 
-        SCR_Deck PlrDeck = new SCR_Deck(false);
-        SCR_Deck CPUDeck = new SCR_Deck(false);
+        SCR_Deck PlrDeck = new SCR_Deck(false, false);
+        SCR_Deck CPUDeck = new SCR_Deck(false, false);
 
         bool turn = false;
         bool defend = false;
@@ -1007,12 +1007,17 @@ namespace Project24
             CNV_Play.Visibility = Visibility.Visible;
             Gamemode = 0;
             bool dbdeck = false;
+            bool rdeck = false;
             if (Debug && CBX_Debug.IsChecked == true)
             {
                 dbdeck = true;
             }
-            PlrDeck = new SCR_Deck(dbdeck);
-            CPUDeck = new SCR_Deck(dbdeck);
+            if (CBX_Random.IsChecked == true)
+            {
+                rdeck = false;
+            }
+            PlrDeck = new SCR_Deck(dbdeck, rdeck);
+            CPUDeck = new SCR_Deck(dbdeck, rdeck);
             StartGame();
         }
 
@@ -1024,11 +1029,16 @@ namespace Project24
             CNV_Play.Visibility = Visibility.Visible;
             Gamemode = 1;
             bool dbdeck = false;
+            bool rdeck = false;
             if (Debug && CBX_Debug.IsChecked == true)
             {
                 dbdeck = true;
             }
-            PlrDeck = new SCR_Deck(dbdeck);
+            if (CBX_Random.IsChecked == true)
+            {
+                rdeck = true;
+            }
+            PlrDeck = new SCR_Deck(dbdeck, rdeck);
             CPUDeck = PlrDeck;
             StartGame();
         }

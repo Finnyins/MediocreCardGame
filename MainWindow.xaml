@@ -266,7 +266,7 @@
                     </LinearGradientBrush>
                 </Canvas.Background>
                 <Label x:Name="LBL_Title1" Content="Select Game Mode" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="72" Width="832" Canvas.Left="10" Background="#00000000"/>
-                <Button x:Name="BTN_Classic" Content="Classic" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="237" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" ToolTip="The standard experience.&#xA;Both players use their own standard 52-card deck" Click="BTN_Classic_Click">
+                <Button x:Name="BTN_Classic" Content="Classic" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="237" Canvas.Top="195" RenderTransformOrigin="0.5,0.5" ToolTip="The standard experience.&#xA;Both players use their own standard 52-card deck" Click="BTN_Classic_Click">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="White" Offset="0"/>
@@ -274,7 +274,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="BTN_SharedDeck" Content="Shared" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="376" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" ToolTip="A more randomized experience.&#xA;Both players draw from the same standard 52-card deck" Click="BTN_SharedDeck_Click">
+                <Button x:Name="BTN_SharedDeck" Content="Shared" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="376" Canvas.Top="195" RenderTransformOrigin="0.5,0.5" ToolTip="A more randomized experience.&#xA;Both players draw from the same standard 52-card deck" Click="BTN_SharedDeck_Click">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="White" Offset="0"/>
@@ -282,7 +282,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="BTN_Back" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="515" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" ToolTip="Click to go back to the main menu" Click="BTN_Back_Click">
+                <Button x:Name="BTN_Back" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="515" Canvas.Top="195" RenderTransformOrigin="0.5,0.5" ToolTip="Click to go back to the main menu" Click="BTN_Back_Click">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="White" Offset="0"/>
@@ -290,7 +290,17 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <CheckBox x:Name="CBX_Debug" Content="Use Debug Deck?" Canvas.Left="363" Canvas.Top="367" FontFamily="Algerian" Width="121" RenderTransformOrigin="0.5,0.5" IsEnabled="False" Visibility="Hidden">
+                <CheckBox x:Name="CBX_Debug" Content="Use Debug Deck?" Canvas.Left="363" Canvas.Top="395" FontFamily="Algerian" Width="121" RenderTransformOrigin="0.5,0.5" IsEnabled="False" Visibility="Hidden">
+                    <CheckBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </CheckBox.RenderTransform>
+                </CheckBox>
+                <CheckBox x:Name="CBX_Random" Content="Random Decks?" Canvas.Left="363" Canvas.Top="353" FontFamily="Algerian" Width="121" RenderTransformOrigin="0.5,0.5">
                     <CheckBox.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform ScaleX="2" ScaleY="2"/>
@@ -352,7 +362,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.5.5" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16" ClipToBounds="True" Height="30"/>
+                <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.6.1" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16" ClipToBounds="True" Height="30"/>
                 <Label x:Name="LBL_Header" Content="The" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="36" Height="45" Canvas.Top="-12" ClipToBounds="True"/>
                 <Label x:Name="LBL_Debug" Content="Debug Enabled" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="137" Canvas.Left="705" Background="#00000000" FontSize="16"/>
                 <Button x:Name="BTN_Options" Content="Options" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="BTN_Options_Click" Canvas.Left="515" Canvas.Top="185" RenderTransformOrigin="0.5,0.5" ToolTip="Configure the game's settings" ClipToBounds="True">
