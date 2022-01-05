@@ -76,14 +76,21 @@ namespace Project24
 
         private void QuitMatch(Object sender, ExecutedRoutedEventArgs a)
         {
-            MessageBoxResult endmatch = MessageBox.Show("Quit match?\n\n\nYou will not be able to come back, and the results of this game will not be recorded.", "End Match", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (endmatch == MessageBoxResult.Yes)
+            if (Gamemode != 3)
             {
-                Gamemode = 3;
-                CNV_Play.IsEnabled = false;
-                CNV_Play.Visibility = Visibility.Hidden;
-                CNV_Menu.IsEnabled = true;
-                CNV_Menu.Visibility = Visibility.Visible;
+                MessageBoxResult endmatch = MessageBox.Show("Quit match?\n\n\nYou will not be able to come back, and the results of this game will not be recorded.", "End Match", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (endmatch == MessageBoxResult.Yes)
+                {
+                    Gamemode = 3;
+                    CNV_Play.IsEnabled = false;
+                    CNV_Play.Visibility = Visibility.Hidden;
+                    CNV_Menu.IsEnabled = true;
+                    CNV_Menu.Visibility = Visibility.Visible;
+                }
+            }
+            else if (Gamemode == 3)
+            {
+                BTN_Quit_Click(null, null);
             }
         }
 
