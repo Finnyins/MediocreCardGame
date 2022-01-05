@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Project24"
         mc:Ignorable="d"
         Title="The Mediocre Card Game" MinWidth="852" MinHeight="480" IsTabStop="False" Closing="FRM_Main_Closing" Height="480" Width="852" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <Grid x:Name="GRD_Main" SizeChanged="GRD_Main_SizeChanged" RenderTransformOrigin="0.5,0.5" MinWidth="858.4" MinHeight="455.2" Margin="-6.4,0,-6.4,-3.6" ClipToBounds="True" SnapsToDevicePixels="True">
+    <Grid x:Name="GRD_Main" SizeChanged="GRD_Main_SizeChanged" RenderTransformOrigin="0.5,0.5" MinWidth="852" MinHeight="455.2" Margin="-6.4,0,-6.4,-3.6" ClipToBounds="True" SnapsToDevicePixels="True">
         <Grid.LayoutTransform>
             <TransformGroup>
                 <ScaleTransform/>
@@ -75,18 +75,6 @@
                 <Label x:Name="LBL_Header1" Content="The" HorizontalContentAlignment="Center" FontFamily="Algerian" Background="#00000000" FontSize="36" ClipToBounds="True" Grid.ColumnSpan="8" Margin="10,-12,10,59.8" Grid.RowSpan="2"/>
                 <Label x:Name="LBL_Debug1" Content="Debug Enabled" HorizontalContentAlignment="Center" FontFamily="Algerian" Background="#00000000" FontSize="16" Grid.Column="7" Margin="10,0,0,1.2" Grid.Row="6" Visibility="Hidden"/>
             </Grid>
-        </Viewbox>
-        <Viewbox x:Name="VBX_Victory" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0,0,0,-0.6">
-            <Canvas x:Name="CNV_Victory" HorizontalAlignment="Left" Height="228" VerticalAlignment="Top" Width="417" Visibility="Hidden">
-                <Canvas.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FFE4CF18" Offset="0"/>
-                        <GradientStop Color="#FF736C2E" Offset="1"/>
-                    </LinearGradientBrush>
-                </Canvas.Background>
-                <Label x:Name="LBL_Victor" Content="[none]" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="10" Canvas.Top="53" Width="397"/>
-                <Label x:Name="LBL_Win" Content="Wins!" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="140" Canvas.Top="126"/>
-            </Canvas>
         </Viewbox>
         <Viewbox x:Name="VBX_Play" OpacityMask="#FFCB1A1A" Margin="0,0,0,-0.4" Stretch="Fill">
             <Canvas x:Name="CNV_Play" ClipToBounds="True" RenderTransformOrigin="0.5,0.5" Height="455" Width="860" IsEnabled="False" Visibility="Hidden">
@@ -177,6 +165,18 @@
                 <Label x:Name="LBL_CPUDeck" Content="0" FontFamily="Algerian" FontSize="24" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="140" Canvas.Left="10" Canvas.Top="90" Width="102"/>
                 <Label x:Name="LBL_PlrDeck" Content="0" FontFamily="Algerian" FontSize="24" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="140" Canvas.Left="749" Canvas.Top="244" Width="102"/>
                 <Button x:Name="BTN_Pass" Content="Pass" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="56" Background="Red" Foreground="#FF691E1E" FontFamily="Algerian" FontSize="36" BorderBrush="White" Visibility="Hidden" Click="BTN_Pass_Click" IsEnabled="False" Canvas.Left="246" Canvas.Top="211"/>
+            </Canvas>
+        </Viewbox>
+        <Viewbox x:Name="VBX_Victory" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0,0,0,-0.6">
+            <Canvas x:Name="CNV_Victory" HorizontalAlignment="Left" Height="228" VerticalAlignment="Top" Width="417" Visibility="Hidden">
+                <Canvas.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFE4CF18" Offset="0"/>
+                        <GradientStop Color="#FF736C2E" Offset="1"/>
+                    </LinearGradientBrush>
+                </Canvas.Background>
+                <Label x:Name="LBL_Victor" Content="[none]" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="10" Canvas.Top="53" Width="397"/>
+                <Label x:Name="LBL_Win" Content="Wins!" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="140" Canvas.Top="126"/>
             </Canvas>
         </Viewbox>
         <Viewbox x:Name="VBX_Options" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0,0,0,-0.6">
@@ -302,8 +302,8 @@
                 </CheckBox>
             </Canvas>
         </Viewbox>
-        <Viewbox x:Name="VBX_Menu" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0,0,0,-0.8">
-            <Canvas x:Name="CNV_Menu" ClipToBounds="True" RenderTransformOrigin="0.5,0.5" Height="455" Width="852">
+        <Viewbox x:Name="VBX_Menu" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0">
+            <Canvas x:Name="CNV_Menu" RenderTransformOrigin="0.5,0.5" Height="455" Width="852">
                 <Canvas.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -328,7 +328,7 @@
                 </Canvas.Background>
                 <Label x:Name="LBL_Title" Content="Mediocre Card Game" Canvas.Top="10" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="72" Width="832" Canvas.Left="10" Background="#00000000" ClipToBounds="True"/>
                 <Label x:Name="LBL_SubTitle" Content="A Rudimentary Card Game of Sorts" Canvas.Top="84" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="24" Width="832" Canvas.Left="10" Background="#00000000" ClipToBounds="True"/>
-                <Button x:Name="BTN_PlayGame" Content="Play" Width="99" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="237" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" Click="BTN_PlayGame_Click" ToolTip="Start a new match" ClipToBounds="True">
+                <Button x:Name="BTN_PlayGame" Content="Play" Width="99" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="237" Canvas.Top="185" RenderTransformOrigin="0.5,0.5" Click="BTN_PlayGame_Click" ToolTip="Start a new match" ClipToBounds="True">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="White" Offset="0"/>
@@ -336,7 +336,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="BTN_Stats" Content="Stats" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="BTN_Stats_Click" Canvas.Left="376" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" ToolTip="View your player stats" ClipToBounds="True">
+                <Button x:Name="BTN_Stats" Content="Stats" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="BTN_Stats_Click" Canvas.Left="376" Canvas.Top="185" RenderTransformOrigin="0.5,0.5" ToolTip="View your player stats" ClipToBounds="True">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="White" Offset="0"/>
@@ -344,7 +344,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="BTN_Quit" Content="Quit" Width="378" Height="53" FontFamily="Algerian" FontSize="24" Click="BTN_Quit_Click" Canvas.Left="237" Canvas.Top="346" RenderTransformOrigin="0.5,0.5" ToolTip="Close the game" ClipToBounds="True">
+                <Button x:Name="BTN_Quit" Content="Quit" Width="378" Height="53" FontFamily="Algerian" FontSize="24" Click="BTN_Quit_Click" Canvas.Left="237" Canvas.Top="332" RenderTransformOrigin="0.5,0.5" ToolTip="Close the game" ClipToBounds="True">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="White" Offset="0"/>
@@ -352,10 +352,10 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.5.4" Canvas.Top="425" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16" ClipToBounds="True"/>
+                <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.5.5" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16" ClipToBounds="True" Height="30"/>
                 <Label x:Name="LBL_Header" Content="The" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="36" Height="45" Canvas.Top="-12" ClipToBounds="True"/>
-                <Label x:Name="LBL_Debug" Content="Debug Enabled" Canvas.Top="425" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="137" Canvas.Left="717" Background="#00000000" FontSize="16" Visibility="Hidden"/>
-                <Button x:Name="BTN_Options" Content="Options" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="BTN_Options_Click" Canvas.Left="515" Canvas.Top="201" RenderTransformOrigin="0.5,0.5" ToolTip="Configure the game's settings" ClipToBounds="True">
+                <Label x:Name="LBL_Debug" Content="Debug Enabled" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="137" Canvas.Left="705" Background="#00000000" FontSize="16"/>
+                <Button x:Name="BTN_Options" Content="Options" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="BTN_Options_Click" Canvas.Left="515" Canvas.Top="185" RenderTransformOrigin="0.5,0.5" ToolTip="Configure the game's settings" ClipToBounds="True">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="White" Offset="0"/>

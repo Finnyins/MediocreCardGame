@@ -37,7 +37,7 @@ namespace Project24
 
         bool Debug = false;
 
-        byte Gamemode = 0;
+        byte Gamemode = 3;
 
         List<MDL_Stats> stats = StatsManager.Load();
 
@@ -63,6 +63,9 @@ namespace Project24
             RoutedCommand simon = new RoutedCommand();
             simon.InputGestures.Add(new KeyGesture(Key.W, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(simon, SimonWins));
+            RoutedCommand Matchquit = new RoutedCommand();
+            Matchquit.InputGestures.Add(new KeyGesture(Key.Escape));
+            CommandBindings.Add(new CommandBinding(Matchquit, QuitMatch));
         }
 
         private async Task TakeFocus()
@@ -71,6 +74,18 @@ namespace Project24
             this.Focus();
         }
 
+        private void QuitMatch(Object sender, ExecutedRoutedEventArgs a)
+        {
+            MessageBoxResult endmatch = MessageBox.Show("Quit match?\n\n\nYou will not be able to come back, and the results of this game will not be recorded.", "End Match", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (endmatch == MessageBoxResult.Yes)
+            {
+                Gamemode = 3;
+                CNV_Play.IsEnabled = false;
+                CNV_Play.Visibility = Visibility.Hidden;
+                CNV_Menu.IsEnabled = true;
+                CNV_Menu.Visibility = Visibility.Visible;
+            }
+        }
 
         private void SimonWins(Object sender, ExecutedRoutedEventArgs a)
         {
@@ -147,6 +162,20 @@ namespace Project24
             CPUPoints = 0;
             LBL_PlrPnt.Content = PlrPoints;
             LBL_CPUPnts.Content = CPUPoints;
+            LBL_PlrDeck.Content = PlrDeck.cards.Count();
+            LBL_CPUDeck.Content = CPUDeck.cards.Count();
+            DisableCards();
+            PlrHand.Clear();
+            CPUHand.Clear();
+            BTN_CardI.Content = "";
+            BTN_CardII.Content = "";
+            BTN_CardIII.Content = "";
+            BTN_CardIV.Content = "";
+            BTN_CardV.Content = "";
+            LBL_Playcard.Content = "";
+            LBL_Playcard.Visibility = Visibility.Hidden;
+            BTN_Pass.IsEnabled = false;
+            BTN_Pass.Visibility = Visibility.Hidden;
             DealCards();
             PlayerTurn();
         }
@@ -230,6 +259,10 @@ namespace Project24
         }
         private void PlayerTurn()
         {
+            if (Gamemode == 3)
+            {
+                return;
+            }
             if (Debug)
             {
                 ConsoleWriteLine("Player Turn");
@@ -246,6 +279,10 @@ namespace Project24
 
         async Task PlayerDefend()
         {
+            if (Gamemode == 3)
+            {
+                return;
+            }
             if (Debug)
             {
                 ConsoleWriteLine("Player Defend");
@@ -272,6 +309,10 @@ namespace Project24
 
         private void CPUTurn()
         {
+            if (Gamemode == 3)
+            {
+                return;
+            }
             if (Debug)
             {
                 ConsoleWriteLine("CPU Turn");
@@ -373,13 +414,13 @@ namespace Project24
         }
         private void GRD_Main_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // This is nothing but the remnants of a failed scaling setup
-            ConsoleWriteLine("Grid");
+            // This is nothing but the remnants of an old scaling setup
         }
 
         async Task EndGame()
         {
             await Task.Delay(2500);
+            Gamemode = 3;
             CNV_Victory.IsEnabled = false;
             CNV_Victory.Visibility = Visibility.Hidden;
             CNV_Play.IsEnabled = false;
@@ -393,6 +434,10 @@ namespace Project24
             if (Debug)
             {
                 ConsoleWriteLine("End Turn");
+            }
+            if (Gamemode == 3)
+            {
+                return;
             }
             await Task.Delay(2500);
             LBL_Playcard.Visibility = Visibility.Hidden;
@@ -485,6 +530,10 @@ namespace Project24
 
         private void CPUDefend()
         {
+            if (Gamemode == 3)
+            {
+                return;
+            }
             if (Debug)
             {
                 ConsoleWriteLine("CPU Defend");
@@ -998,24 +1047,6 @@ namespace Project24
             }
         }
 
-        private void FRM_Main_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ConsoleWriteLine("Resize");
-            double scaleX = FRM_Main.Width / sizeX;
-            double scaleY = FRM_Main.Height / sizeY;
-            GRD_Main.Width *= scaleX;
-            GRD_Main.Height *= scaleY;
-            
-            /*
-            GRD_Main.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
-            CNV_Menu.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
-            CNV_Stats.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
-            CNV_GameSelect.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
-            CNV_Victory.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
-            CNV_Play.LayoutTransform = new ScaleTransform(scaleX, scaleY, 0, 0);
-            */
-        }
-
         private void BTN_BackToMain_Click(object sender, RoutedEventArgs e)
         {
             CNV_Options.IsEnabled = false;
@@ -1030,18 +1061,6 @@ namespace Project24
             CNV_Menu.Visibility = Visibility.Hidden;
             CNV_Options.IsEnabled = true;
             CNV_Options.Visibility = Visibility.Visible;
-        }
-
-        private void RBT_480_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.MainWindow.Height = 480;
-            Application.Current.MainWindow.Width = 852;
-        }
-
-        private void RBT_1080_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.MainWindow.Height = 1080;
-            Application.Current.MainWindow.Width = 1920;
         }
 
         private void CBX_Fullscreen_Click(object sender, RoutedEventArgs e)
