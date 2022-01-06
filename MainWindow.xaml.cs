@@ -1115,23 +1115,58 @@ namespace Project24
             }
         }
 
+        private void CardValue_Unfocused(object sender, RoutedEventArgs e)
+        {
+            if ((sender as TextBox).Text == "" || (sender as TextBox).Text == null)
+            {
+                (sender as TextBox).Text = "0";
+            }
+            else
+            {
+                try
+                {
+                    Convert.ToByte((sender as TextBox).Text);
+                }
+                catch (System.FormatException)
+                {
+                    (sender as TextBox).Text = "0";
+                }
+                catch (System.InvalidCastException)
+                {
+                    (sender as TextBox).Text = "0";
+                }
+                catch (System.OverflowException)
+                {
+                    (sender as TextBox).Text = "255";
+                }
+            }
+        }
+
+        private void CardValue_Focused(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).Clear();
+        }
+
         private void CardValue_TextChanged(object sender, TextChangedEventArgs e)
         {
-            try
+            if ((sender as TextBox).IsFocused == false)
             {
-                Convert.ToByte((sender as TextBox).Text);
-            }
-            catch (System.FormatException)
-            {
-                (sender as TextBox).Text = "0";
-            }
-            catch (System.InvalidCastException)
-            {
-                (sender as TextBox).Text = "0";
-            }
-            catch (System.OverflowException)
-            {
-                (sender as TextBox).Text = "255";
+                try
+                {
+                    Convert.ToByte((sender as TextBox).Text);
+                }
+                catch (System.FormatException)
+                {
+                    (sender as TextBox).Text = "0";
+                }
+                catch (System.InvalidCastException)
+                {
+                    (sender as TextBox).Text = "0";
+                }
+                catch (System.OverflowException)
+                {
+                    (sender as TextBox).Text = "255";
+                }
             }
         }
 
