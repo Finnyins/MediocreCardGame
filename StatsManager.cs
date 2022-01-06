@@ -23,7 +23,7 @@ namespace Project24
             {
                 conn.Execute("create table if not exists Stats (GameMode NOT NULL UNIQUE, Wins  INTEGER, Losses INTEGER, Ties  INTEGER, PRIMARY KEY(GameMode))");
                 conn.Execute("insert or ignore into Stats (GameMode) values ('Classic')");
-                conn.Execute("insert or ignore into Stats (GameMode) values ('Shared')");
+                conn.Execute("insert or ignore into Stats (GameMode) values ('Custom')");
             }
         }
 

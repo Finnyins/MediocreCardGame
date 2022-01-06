@@ -17,39 +17,35 @@ namespace Project24
     {
         RNGCryptoServiceProvider shuffle = new RNGCryptoServiceProvider();
         public List<string> cards;
-        public SCR_Deck(bool debug, bool rndm)
+        public SCR_Deck(bool custom, bool rndm, byte decksize, List<string> customdeck)
         {
-            byte length = 0;
-            List<string> defaultdeck = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild" };
+            List<string> defaultdeck = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", };
             List<string> randomcards = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild" };
 
-            if (debug)
+            if (custom)
             {
-                length = 13;
-                //cards = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild" };
+                cards = customdeck;
             }
             else
             {
-                length = 52;
-                //cards = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild", "Wild", "Wild" };
-            }
-            cards = new List<string>();
-            if (rndm)
-            {
-                for (byte i = 0; i < length; i++)
+                cards = new List<string>();
+                if (rndm)
                 {
-                    byte[] rng = new byte[4];
-                    shuffle.GetBytes(rng);
-                    int id = BitConverter.ToInt32(rng, 0);
-                    int index = new Random(id).Next(randomcards.Count());
-                    cards.Add(randomcards[index]);
+                    for (byte i = 0; i < decksize; i++)
+                    {
+                        byte[] rng = new byte[4];
+                        shuffle.GetBytes(rng);
+                        int id = BitConverter.ToInt32(rng, 0);
+                        int index = new Random(id).Next(randomcards.Count());
+                        cards.Add(randomcards[index]);
+                    }
                 }
-            }
-            else
-            {
-                for (byte i = 0; i < length; i++)
+                else
                 {
-                    cards.Add(defaultdeck[i]);
+                    for (byte i = 0; i < decksize; i++)
+                    {
+                        cards.Add(defaultdeck[i]);
+                    }
                 }
             }
         }
@@ -60,8 +56,7 @@ namespace Project24
                 byte[] rand = new byte[4];
                 shuffle.GetBytes(rand);
                 int val = BitConverter.ToInt32(rand, 0);
-                int card = new Random(val).Next(cards.Count());
-                byte index = Convert.ToByte(card);
+                int index = new Random(val).Next(cards.Count());
                 string pullcard = cards[index];
                 cards.RemoveAt(index);
                 return pullcard;

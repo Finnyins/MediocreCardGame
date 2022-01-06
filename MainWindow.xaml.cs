@@ -28,6 +28,7 @@ namespace Project24
     /// </summary>
     public partial class MainWindow : Window
     {
+        // These two doubles serve no purpose. They are remnants of a scrapped scaling method.
         double sizeX = 852;
         double sizeY = 480.8;
 
@@ -39,10 +40,13 @@ namespace Project24
 
         byte Gamemode = 3;
 
+        List<string> CustomDeck1 = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild" };
+        List<string> CustomDeck2 = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild" };
+
         List<MDL_Stats> stats = StatsManager.Load();
 
-        SCR_Deck PlrDeck = new SCR_Deck(false, false);
-        SCR_Deck CPUDeck = new SCR_Deck(false, false);
+        SCR_Deck PlrDeck = new SCR_Deck(false, false, 52, null);
+        SCR_Deck CPUDeck = new SCR_Deck(false, false, 52, null);
 
         bool turn = false;
         bool defend = false;
@@ -127,9 +131,6 @@ namespace Project24
             if (Debug)
             {
                 LBL_Debug.Visibility = Visibility.Hidden;
-                CBX_Debug.IsEnabled = false;
-                CBX_Debug.Visibility = Visibility.Hidden;
-                CBX_Debug.IsChecked = false;
                 BTN_Reset.IsEnabled = false;
                 BTN_Reset.Visibility = Visibility.Hidden;
                 Debug = false;
@@ -147,8 +148,6 @@ namespace Project24
             else
             {
                 LBL_Debug.Visibility = Visibility.Visible;
-                CBX_Debug.IsEnabled = true;
-                CBX_Debug.Visibility = Visibility.Visible;
                 BTN_Reset.IsEnabled = true;
                 BTN_Reset.Visibility = Visibility.Visible;
                 Debug = true;
@@ -494,26 +493,41 @@ namespace Project24
                 if (simonwins)
                 {
                     LBL_Victor.Content = "Simon";
-                    stats[Gamemode].Wins += 1;
+                    if (Gamemode != 4)
+                    {
+                        stats[Gamemode].Wins += 1;
+                    }
                 }
                 else if (PlrPoints > CPUPoints)
                 {
                     LBL_Victor.Content = "Player";
-                    stats[Gamemode].Wins += 1;
-                    
+                    if (Gamemode != 4)
+                    {
+                        stats[Gamemode].Wins += 1;
+                    }
+
                 }
                 else if (PlrPoints < CPUPoints)
                 {
                     LBL_Victor.Content = "CPU";
-                    stats[Gamemode].Losses += 1;
+                    if (Gamemode != 4)
+                    {
+                        stats[Gamemode].Losses += 1;
+                    }
                 }
                 else
                 {
                     LBL_Victor.Content = "Draw. Nobody";
-                    stats[Gamemode].Ties += 1;
+                    if (Gamemode != 4)
+                    {
+                        stats[Gamemode].Ties += 1;
+                    }
                 }
                 CNV_Victory.Visibility = Visibility.Visible;
-                StatsManager.Update(stats[Gamemode]);
+                if (Gamemode != 4)
+                {
+                    StatsManager.Update(stats[Gamemode]);
+                }
                 await EndGame();
                 return;
             }
@@ -927,16 +941,6 @@ namespace Project24
             CNV_Menu.Visibility = Visibility.Hidden;
             CNV_GameSelect.IsEnabled = true;
             CNV_GameSelect.Visibility = Visibility.Visible;
-            if (Debug)
-            {
-                CBX_Debug.IsEnabled = true;
-                CBX_Debug.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                CBX_Debug.IsEnabled = false;
-                CBX_Debug.Visibility = Visibility.Hidden;
-            }
         }
 
         private void BTN_Stats_Click(object sender, RoutedEventArgs e)
@@ -999,47 +1003,45 @@ namespace Project24
             CNV_Menu.Visibility = Visibility.Visible;
         }
 
-        private void BTN_Classic_Click(object sender, RoutedEventArgs e)
+        private void BTN_Start_Click(object sender, RoutedEventArgs e)
         {
             CNV_GameSelect.IsEnabled = false;
             CNV_GameSelect.Visibility = Visibility.Hidden;
             CNV_Play.IsEnabled = true;
             CNV_Play.Visibility = Visibility.Visible;
-            Gamemode = 0;
-            bool dbdeck = false;
+            bool custom = false;
             bool rdeck = false;
-            if (Debug && CBX_Debug.IsChecked == true)
+            byte decksize = Convert.ToByte(SLD_Cards.Value);
+            if (CBX_Custom.IsChecked == true)
             {
-                dbdeck = true;
+                custom = true;
             }
-            if (CBX_Random.IsChecked == true)
-            {
-                rdeck = false;
-            }
-            PlrDeck = new SCR_Deck(dbdeck, rdeck);
-            CPUDeck = new SCR_Deck(dbdeck, rdeck);
-            StartGame();
-        }
-
-        private void BTN_SharedDeck_Click(object sender, RoutedEventArgs e)
-        {
-            CNV_GameSelect.IsEnabled = false;
-            CNV_GameSelect.Visibility = Visibility.Hidden;
-            CNV_Play.IsEnabled = true;
-            CNV_Play.Visibility = Visibility.Visible;
-            Gamemode = 1;
-            bool dbdeck = false;
-            bool rdeck = false;
-            if (Debug && CBX_Debug.IsChecked == true)
-            {
-                dbdeck = true;
-            }
-            if (CBX_Random.IsChecked == true)
+            else if (CBX_Random.IsChecked == true && CBX_Custom.IsChecked == false)
             {
                 rdeck = true;
             }
-            PlrDeck = new SCR_Deck(dbdeck, rdeck);
-            CPUDeck = PlrDeck;
+            if (custom == false && rdeck == false && CBX_Shared.IsChecked == false && decksize == 52)
+            {
+                Gamemode = 0;
+            }
+            else if (CBX_Custom.IsChecked == false && decksize > 51)
+            {
+                Gamemode = 1;
+            }
+            else
+            {
+                Gamemode = 4;
+            }
+            PlrDeck = new SCR_Deck(custom, rdeck, decksize, CustomDeck1);
+            if (CBX_Shared.IsChecked == true)
+            {
+                CPUDeck = PlrDeck;
+            }
+            else
+            {
+                CPUDeck = new SCR_Deck(custom, rdeck, decksize, CustomDeck2);
+            }
+            ConsoleWriteLine($"Gamemode: {Gamemode}");
             StartGame();
         }
 
@@ -1093,6 +1095,133 @@ namespace Project24
                 this.WindowState = WindowState.Maximized;
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
                 this.Topmost = false;
+            }
+        }
+
+        private void CBX_Custom_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBX_Custom.IsChecked == true)
+            {
+                BTN_Customize.IsEnabled = true;
+                SLD_Cards.IsEnabled = false;
+                CBX_Random.IsEnabled = false;
+                CBX_Random.IsChecked = false;
+            }
+            else
+            {
+                BTN_Customize.IsEnabled = false;
+                SLD_Cards.IsEnabled = true;
+                CBX_Random.IsEnabled = true;
+            }
+        }
+
+        private void CardValue_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                Convert.ToByte((sender as TextBox).Text);
+            }
+            catch (System.FormatException)
+            {
+                (sender as TextBox).Text = "0";
+            }
+            catch (System.InvalidCastException)
+            {
+                (sender as TextBox).Text = "0";
+            }
+            catch (System.OverflowException)
+            {
+                (sender as TextBox).Text = "255";
+            }
+        }
+
+        private void BTN_ResetCards_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Control txt in CNV_Deck1.Children)
+            {
+                if (txt is TextBox)
+                {
+                    (txt as TextBox).Text = "0";
+                }
+            }
+            if (CBX_Shared.IsChecked == false)
+            {
+                foreach (Control txt in CNV_Deck2.Children)
+                {
+                    if (txt is TextBox)
+                    {
+                        (txt as TextBox).Text = "0";
+                    }
+                }
+            }
+        }
+
+        private void BTN_ConfirmCards_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Control txt in CNV_Deck1.Children)
+            {
+                if (txt is TextBox)
+                {
+                    for (byte i = 0; i < Convert.ToByte((txt as TextBox).Text); i++)
+                    {
+                        CustomDeck1.Add(Convert.ToString(txt.Tag));
+                    }
+                }
+            }
+            ConsoleWriteLine(Convert.ToString(CustomDeck1.Count));
+            if (CustomDeck1.Count < 10)
+            {
+                MessageBox.Show("ERROR: Insufficient deck size:\nDeck 1 has an invalid deck size. Each deck must have at least 10 cards total.", "Insufficient Deck Size", MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomDeck1.Clear();
+                return;
+            }
+            if (CBX_Shared.IsChecked == false)
+            {
+                foreach (Control txt in CNV_Deck2.Children)
+                {
+                    if (txt is TextBox)
+                    {
+                        for (byte i = 0; i < Convert.ToByte((txt as TextBox).Text); i++)
+                        {
+                            CustomDeck2.Add(Convert.ToString(txt.Tag));
+                        }
+                    }
+                }
+                ConsoleWriteLine(Convert.ToString(CustomDeck2.Count));
+                if (CustomDeck2.Count < 10)
+                {
+                    MessageBox.Show("ERROR: Insufficient deck size:\nDeck 2 has an invalid deck size. Each deck must have at least 10 cards total.", "Insufficient Deck Size", MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomDeck2.Clear();
+                    return;
+                }
+            }
+            CNV_Customize.IsEnabled = false;
+            CNV_Customize.Visibility = Visibility.Hidden;
+            CNV_GameSelect.Visibility = Visibility.Visible;
+            CNV_GameSelect.IsEnabled = true;
+        }
+
+        private void CBX_Shared_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBX_Shared.IsChecked == true)
+            {
+                CNV_Deck2.IsEnabled = false;
+            }
+            else
+            {
+                CNV_Deck2.IsEnabled = true;
+            }
+        }
+
+        private void BTN_Customize_Click(object sender, RoutedEventArgs e)
+        {
+            CNV_GameSelect.IsEnabled = false;
+            CNV_GameSelect.Visibility = Visibility.Hidden;
+            CNV_Customize.Visibility = Visibility.Visible;
+            CNV_Customize.IsEnabled = true;
+            if (CBX_Shared.IsChecked == false)
+            {
+                CNV_Deck2.IsEnabled = true;
             }
         }
     }
