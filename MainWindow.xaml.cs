@@ -1193,6 +1193,7 @@ namespace Project24
 
         private void BTN_ConfirmCards_Click(object sender, RoutedEventArgs e)
         {
+            CustomDeck1.Clear();
             foreach (Control txt in CNV_Deck1.Children)
             {
                 if (txt is TextBox)
@@ -1212,6 +1213,7 @@ namespace Project24
             }
             if (CBX_Shared.IsChecked == false)
             {
+                CustomDeck2.Clear();
                 foreach (Control txt in CNV_Deck2.Children)
                 {
                     if (txt is TextBox)
