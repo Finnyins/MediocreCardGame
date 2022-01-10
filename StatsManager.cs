@@ -19,7 +19,7 @@ namespace Project24
     {
         private static void VerifyTable()
         {
-            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString()))
+            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString(), true))
             {
                 conn.Execute("create table if not exists Stats (GameMode NOT NULL UNIQUE, Wins  INTEGER, Losses INTEGER, Ties  INTEGER, PRIMARY KEY(GameMode))");
                 conn.Execute("insert or ignore into Stats (GameMode) values ('Classic')");
@@ -30,7 +30,7 @@ namespace Project24
         public static List<MDL_Stats> Load()
         {
             VerifyTable();
-            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString()))
+            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString(), true))
             {
                 List<MDL_Stats> output = conn.Query<MDL_Stats>("select * from Stats", new DynamicParameters()).ToList();
                 return output;
@@ -39,7 +39,7 @@ namespace Project24
 
         public static void Update(MDL_Stats stat)
         {
-            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString()))
+            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString(), true))
             {
                 conn.Execute("update Stats set Wins = @Wins, Losses = @Losses, Ties = @Ties where GameMode = @GameMode", stat);
             }
@@ -47,7 +47,7 @@ namespace Project24
 
         public static void Reset()
         {
-            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString()))
+            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString(), true))
             {
                 conn.Execute("drop table Stats");
             }

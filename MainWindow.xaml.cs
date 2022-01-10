@@ -1086,14 +1086,18 @@ namespace Project24
         {
             if (CBX_Fullscreen.IsChecked == true)
             {
-                this.WindowState = WindowState.Maximized;
                 this.WindowStyle = WindowStyle.None;
+                this.ResizeMode = ResizeMode.NoResize;
+                this.WindowState = WindowState.Normal;
+                this.WindowState = WindowState.Maximized;
                 this.Topmost = true;
             }
             else
             {
-                this.WindowState = WindowState.Maximized;
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.ResizeMode = ResizeMode.CanResizeWithGrip;
+                this.WindowState = WindowState.Normal;
+                this.WindowState = WindowState.Maximized;
                 this.Topmost = false;
             }
         }
