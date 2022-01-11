@@ -70,12 +70,21 @@ namespace Project24
             RoutedCommand Matchquit = new RoutedCommand();
             Matchquit.InputGestures.Add(new KeyGesture(Key.Escape));
             CommandBindings.Add(new CommandBinding(Matchquit, QuitMatch));
+            RoutedCommand Fullscreen = new RoutedCommand();
+            Fullscreen.InputGestures.Add(new KeyGesture(Key.F11));
+            CommandBindings.Add(new CommandBinding(Fullscreen, FullscreenToggle));
         }
 
         private async Task TakeFocus()
         {
             await Task.Delay(100);
             this.Focus();
+        }
+
+        private void FullscreenToggle(Object sender, ExecutedRoutedEventArgs a)
+        {
+            CBX_Fullscreen.IsChecked ^= true;
+            CBX_Fullscreen_Click(null, null);
         }
 
         private void QuitMatch(Object sender, ExecutedRoutedEventArgs a)
