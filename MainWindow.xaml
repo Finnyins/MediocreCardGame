@@ -164,7 +164,7 @@
                 </Button>
                 <Label x:Name="LBL_CPUDeck" Content="0" FontFamily="Algerian" FontSize="24" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="140" Canvas.Left="10" Canvas.Top="90" Width="102"/>
                 <Label x:Name="LBL_PlrDeck" Content="0" FontFamily="Algerian" FontSize="24" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="140" Canvas.Left="749" Canvas.Top="244" Width="102"/>
-                <Button x:Name="BTN_Pass" Content="Pass" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="56" Background="Red" Foreground="#FF691E1E" FontFamily="Algerian" FontSize="36" BorderBrush="White" Visibility="Hidden" Click="BTN_Pass_Click" IsEnabled="False" Canvas.Left="246" Canvas.Top="211"/>
+                <Button x:Name="BTN_Pass" Content="Pass" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="56" Background="Red" Foreground="#FF691E1E" FontFamily="Algerian" FontSize="36" BorderBrush="White" Visibility="Hidden" Click="BTN_Pass_Click" IsEnabled="False" Canvas.Left="246" Canvas.Top="211" ToolTip="End your turn without playing a card"/>
             </Canvas>
         </Viewbox>
         <Viewbox x:Name="VBX_Victory" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0,0,0,-0.6">
@@ -196,17 +196,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <CheckBox x:Name="CBX_Debug1" Content="Use Debug Deck?" Canvas.Left="363" Canvas.Top="367" FontFamily="Algerian" Width="121" RenderTransformOrigin="0.5,0.5" IsEnabled="False" Visibility="Hidden">
-                    <CheckBox.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleX="2" ScaleY="2"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </CheckBox.RenderTransform>
-                </CheckBox>
-                <CheckBox x:Name="CBX_Fullscreen" Content="FullScreen" Canvas.Left="386" Canvas.Top="176" Height="15" Width="87" FontFamily="Algerian" FontSize="11" RenderTransformOrigin="0.5,0.5" Click="CBX_Fullscreen_Click">
+                <CheckBox x:Name="CBX_Fullscreen" Content="FullScreen" Canvas.Left="386" Canvas.Top="176" Height="15" Width="87" FontFamily="Algerian" FontSize="11" RenderTransformOrigin="0.5,0.5" Click="CBX_Fullscreen_Click" ToolTip="Toggle full-screen mode">
                     <CheckBox.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform ScaleX="3" ScaleY="3"/>
@@ -314,7 +304,7 @@
                         </TransformGroup>
                     </CheckBox.RenderTransform>
                 </CheckBox>
-                <Button x:Name="BTN_Customize" Content="Customize Decks" HorizontalAlignment="Left" VerticalAlignment="Top" Width="215" Height="73" FontFamily="Algerian" FontSize="24" Canvas.Left="352" Canvas.Top="106" RenderTransformOrigin="0.5,0.5" ToolTip="Start a new match with the given setings" IsEnabled="False" Click="BTN_Customize_Click">
+                <Button x:Name="BTN_Customize" Content="Customize Decks" HorizontalAlignment="Left" VerticalAlignment="Top" Width="215" Height="73" FontFamily="Algerian" FontSize="24" Canvas.Left="352" Canvas.Top="106" RenderTransformOrigin="0.5,0.5" ToolTip="Manually customize the game decks" IsEnabled="False" Click="BTN_Customize_Click">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="White" Offset="0"/>
@@ -322,7 +312,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <CheckBox x:Name="CBX_Custom" Content="" Canvas.Left="308" Canvas.Top="136" FontFamily="Algerian" Width="16" RenderTransformOrigin="0.5,0.5" ToolTip="Randomizes the cards that are put in each deck" Click="CBX_Custom_Click">
+                <CheckBox x:Name="CBX_Custom" Content="" Canvas.Left="308" Canvas.Top="136" FontFamily="Algerian" Width="16" RenderTransformOrigin="0.5,0.5" ToolTip="Enables the use of manually customized decks" Click="CBX_Custom_Click">
                     <CheckBox.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform ScaleX="3" ScaleY="3"/>
