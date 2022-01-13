@@ -6,6 +6,59 @@
         xmlns:local="clr-namespace:Project24"
         mc:Ignorable="d"
         Title="The Mediocre Card Game" MinWidth="852" MinHeight="480" IsTabStop="False" Closing="FRM_Main_Closing" Height="480" Width="852" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="Card" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid x:Name="GRD_Main" SizeChanged="GRD_Main_SizeChanged" RenderTransformOrigin="0.5,0.5" MinWidth="852" MinHeight="455.2" Margin="-6.4,0,-6.4,-3.6" ClipToBounds="True" SnapsToDevicePixels="True">
         <Grid.LayoutTransform>
             <TransformGroup>
@@ -24,7 +77,7 @@
             </TransformGroup>
         </Grid.RenderTransform>
 
-        <Viewbox x:Name="VBX_Unused" d:IsHidden="True" Visibility="Hidden" IsEnabled="False">
+        <Viewbox x:Name="VBX_Unused" Visibility="Hidden" IsEnabled="False" d:IsHidden="True">
             <Grid x:Name="GRD_Unused" Height="455" Width="852" Background="#FFFA0000">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="119*" MinWidth="119"/>
@@ -77,7 +130,7 @@
             </Grid>
         </Viewbox>
         <Viewbox x:Name="VBX_Play" OpacityMask="#FFCB1A1A" Margin="0,0,0,-0.4" Stretch="Fill">
-            <Canvas x:Name="CNV_Play" ClipToBounds="True" RenderTransformOrigin="0.5,0.5" Height="455" Width="860" IsEnabled="False" Visibility="Hidden">
+            <Canvas x:Name="CNV_Play" ClipToBounds="True" RenderTransformOrigin="0.5,0.5" Height="455" Width="860" Visibility="Hidden" IsEnabled="False">
                 <Canvas.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -100,7 +153,7 @@
                         <GradientStop Color="#FFE0E0E0" Offset="1"/>
                     </LinearGradientBrush>
                 </Canvas.Background>
-                <Rectangle x:Name="RCT_Deck" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="748" Canvas.Top="244" Width="102"/>
+                <Rectangle x:Name="RCT_Deck" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="748" Canvas.Top="244" Width="102" RenderTransformOrigin="0.5,0.5"/>
                 <Rectangle x:Name="RCT_Edeck" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="10" Canvas.Top="90" Width="103"/>
                 <Rectangle x:Name="RCT_EcardI" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="117" Canvas.Top="10" Width="103"/>
                 <Rectangle x:Name="RCT_EcardII" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="246" Canvas.Top="10" Width="103"/>
@@ -111,10 +164,7 @@
                 <Label x:Name="LBL_Turn" Content="Turn" FontFamily="Algerian" FontSize="36" Height="59" Canvas.Left="3" Canvas.Top="390" Width="101"/>
                 <Grid x:Name="GRD_Playcard" Height="138" Canvas.Left="377" Canvas.Top="158" Width="102">
                     <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="White" Offset="0"/>
-                            <GradientStop Color="#FF6F6E6E" Offset="1"/>
-                        </LinearGradientBrush>
+                        <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Grid.Background>
                     <Label x:Name="LBL_Playcard" Content="wild" Background="{x:Null}" FontFamily="Algerian" FontSize="16" Margin="27,55,26,51" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Visibility="Hidden"/>
                 </Grid>
@@ -122,44 +172,29 @@
                 <Label x:Name="LBL_EPoint" Content="Points:" FontFamily="Algerian" FontSize="24" Foreground="White" Height="42" Canvas.Left="10" Canvas.Top="10" Width="95"/>
                 <Label x:Name="LBL_PlrPnt" Content="0" FontFamily="Algerian" FontSize="24" Height="42" Canvas.Left="749" Canvas.Top="408" Width="101"/>
                 <Label x:Name="LBL_CPUPnts" Content="0" FontFamily="Algerian" FontSize="24" Foreground="White" Height="42" Canvas.Left="8" Canvas.Top="43" Width="95"/>
-                <Button x:Name="BTN_CardV" Content="CardV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="642" Canvas.Top="305">
+                <Button x:Name="BTN_CardV" Content="CardV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="642" Canvas.Top="305" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
                     <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="White" Offset="0"/>
-                            <GradientStop Color="#FF666666" Offset="1"/>
-                        </LinearGradientBrush>
+                        <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="BTN_CardIV" Content="CardIV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="508" Canvas.Top="305">
+                <Button x:Name="BTN_CardIV" Content="CardIV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="508" Canvas.Top="305" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
                     <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="White" Offset="0"/>
-                            <GradientStop Color="#FF666666" Offset="1"/>
-                        </LinearGradientBrush>
+                        <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="BTN_CardIII" Content="CardIII" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="377" Canvas.Top="305">
+                <Button x:Name="BTN_CardIII" Content="CardIII" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="377" Canvas.Top="305" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
                     <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="White" Offset="0"/>
-                            <GradientStop Color="#FF666666" Offset="1"/>
-                        </LinearGradientBrush>
+                        <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="BTN_CardII" Content="CardII" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="246" Canvas.Top="305">
+                <Button x:Name="BTN_CardII" Content="CardII" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="246" Canvas.Top="305" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
                     <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="White" Offset="0"/>
-                            <GradientStop Color="#FF666666" Offset="1"/>
-                        </LinearGradientBrush>
+                        <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="BTN_CardI" Content="CardI" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="117" Canvas.Top="305">
+                <Button x:Name="BTN_CardI" Content="CardI" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="117" Canvas.Top="305" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
                     <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="White" Offset="0"/>
-                            <GradientStop Color="#FF666666" Offset="1"/>
-                        </LinearGradientBrush>
+                        <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Button.Background>
                 </Button>
                 <Label x:Name="LBL_CPUDeck" Content="0" FontFamily="Algerian" FontSize="24" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="140" Canvas.Left="10" Canvas.Top="90" Width="102"/>
@@ -177,35 +212,6 @@
                 </Canvas.Background>
                 <Label x:Name="LBL_Victor" Content="[none]" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="10" Canvas.Top="53" Width="397"/>
                 <Label x:Name="LBL_Win" Content="Wins!" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="140" Canvas.Top="126"/>
-            </Canvas>
-        </Viewbox>
-        <Viewbox x:Name="VBX_Options" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0,0,0,-0.6">
-            <Canvas x:Name="CNV_Options" Height="455" Width="852" Visibility="Hidden" IsEnabled="False">
-                <Canvas.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF656565" Offset="0"/>
-                        <GradientStop Color="#FFE0E0E0" Offset="1"/>
-                    </LinearGradientBrush>
-                </Canvas.Background>
-                <Label x:Name="LBL_TitleSettings" Content="Settings" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="72" Width="832" Canvas.Left="10" Background="#00000000"/>
-                <Button x:Name="BTN_BackToMain" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="375" Canvas.Top="303" RenderTransformOrigin="0.5,0.5" ToolTip="Click to go back to the main menu" Click="BTN_BackToMain_Click">
-                    <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="White" Offset="0"/>
-                            <GradientStop Color="#FF666666" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Button.Background>
-                </Button>
-                <CheckBox x:Name="CBX_Fullscreen" Content="FullScreen" Canvas.Left="386" Canvas.Top="176" Height="15" Width="87" FontFamily="Algerian" FontSize="11" RenderTransformOrigin="0.5,0.5" Click="CBX_Fullscreen_Click" ToolTip="Toggle full-screen mode">
-                    <CheckBox.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleX="3" ScaleY="3"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </CheckBox.RenderTransform>
-                </CheckBox>
             </Canvas>
         </Viewbox>
         <Viewbox x:Name="VBX_Stats" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0,0,0,-0.2">
@@ -292,7 +298,7 @@
                         </TransformGroup>
                     </Slider.RenderTransform>
                 </Slider>
-                <Label x:Name="LBL_CardAmount" Content="{Binding ElementName=SLD_Cards, Path=Value}" ContentStringFormat="{}{0:#}" FontFamily="Algerian" FontSize="24" Width="82" Canvas.Left="558" Background="#00000000" Canvas.Top="233"/>
+                <Label x:Name="LBL_CardAmount" Content="{Binding Value, ElementName=SLD_Cards}" ContentStringFormat="{}{0:#}" FontFamily="Algerian" FontSize="24" Width="82" Canvas.Left="558" Background="#00000000" Canvas.Top="233"/>
                 <Label x:Name="LBL_Title1_Copy1" Content="Amount of cards per deck" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="24" Width="344" Canvas.Left="245" Background="#00000000" Canvas.Top="194" Height="45"/>
                 <CheckBox x:Name="CBX_Shared" Content="Shared Deck?" Canvas.Left="489" Canvas.Top="294" FontFamily="Algerian" Width="121" RenderTransformOrigin="0.5,0.5" ToolTip="Both the player and CPU draw from the same deck" Click="CBX_Shared_Click">
                     <CheckBox.RenderTransform>
@@ -401,6 +407,93 @@
                 </Canvas>
             </Canvas>
         </Viewbox>
+        <Viewbox x:Name="VBX_Options" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0,0,0,-0.6">
+            <Canvas x:Name="CNV_Options" Height="455" Width="852" IsEnabled="False" Visibility="Hidden">
+                <Canvas.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF656565" Offset="0"/>
+                        <GradientStop Color="#FFE0E0E0" Offset="1"/>
+                    </LinearGradientBrush>
+                </Canvas.Background>
+                <Label x:Name="LBL_TitleSettings" Content="Settings" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="72" Width="832" Canvas.Left="10" Background="#00000000"/>
+                <Button x:Name="BTN_BackToMain" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="375" Canvas.Top="303" RenderTransformOrigin="0.5,0.5" ToolTip="Click to go back to the main menu" Click="BTN_BackToMain_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="White" Offset="0"/>
+                            <GradientStop Color="#FF666666" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <CheckBox x:Name="CBX_Fullscreen" Content="FullScreen" Canvas.Left="386" Canvas.Top="143" Height="14" Width="87" FontFamily="Algerian" FontSize="11" RenderTransformOrigin="0.5,0.5" Click="CBX_Fullscreen_Click" ToolTip="Toggle full-screen mode">
+                    <CheckBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="3" ScaleY="3"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </CheckBox.RenderTransform>
+                </CheckBox>
+                <CheckBox x:Name="CBX_Animations" Content="Enable Card Animations" Canvas.Left="350" Canvas.Top="190" Height="14" Width="161" FontFamily="Algerian" FontSize="11" RenderTransformOrigin="0.5,0.5" ToolTip="Enables the in-game card animations if checked" IsChecked="True">
+                    <CheckBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="3" ScaleY="3"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </CheckBox.RenderTransform>
+                </CheckBox>
+                <Button x:Name="BTN_Foils" Content="Customize Cards" HorizontalAlignment="Left" VerticalAlignment="Top" Width="246" Height="50" FontFamily="Algerian" FontSize="24" Canvas.Left="301" Canvas.Top="230" RenderTransformOrigin="0.5,0.5" ToolTip="Click to go back to the main menu" Click="BTN_Foils_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="White" Offset="0"/>
+                            <GradientStop Color="#FF666666" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+            </Canvas>
+        </Viewbox>
+        <Viewbox x:Name="VBX_Foils" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0,0,0,-0.6">
+            <Canvas x:Name="CNV_Foils" Height="455" Width="852" Visibility="Hidden" IsEnabled="False">
+                <Canvas.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF656565" Offset="0"/>
+                        <GradientStop Color="#FFE0E0E0" Offset="1"/>
+                    </LinearGradientBrush>
+                </Canvas.Background>
+                <Label x:Name="LBL_TitleFoils" Content="Customize Cards" HorizontalContentAlignment="Center" FontFamily="Algerian" FontSize="72" Width="832" Canvas.Left="10" Background="#00000000"/>
+                <Button x:Name="BTN_GoBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" FontFamily="Algerian" FontSize="24" Canvas.Left="375" Canvas.Top="413" RenderTransformOrigin="0.5,0.5" ToolTip="Click to go back to the main menu" Click="BTN_GoBack_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="White" Offset="0"/>
+                            <GradientStop Color="#FF666666" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="BTN_Prev" Content="Prev." HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="69" FontFamily="Algerian" FontSize="24" Canvas.Left="314" Canvas.Top="336" RenderTransformOrigin="0.5,0.5" ToolTip="Click to go back to the main menu" Click="BTN_Prev_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="White" Offset="0"/>
+                            <GradientStop Color="#FF666666" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="BTN_Next" Content="Next" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="69" FontFamily="Algerian" FontSize="24" Canvas.Left="436" Canvas.Top="336" RenderTransformOrigin="0.5,0.5" ToolTip="Click to go back to the main menu" Click="BTN_Next_Click">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="White" Offset="0"/>
+                            <GradientStop Color="#FF666666" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="BTN_FoilDisp" Content="Wild" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="375" Canvas.Top="153" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Resources/FL_Default.png"/>
+                    </Button.Background>
+                </Button>
+            </Canvas>
+        </Viewbox>
         <Viewbox x:Name="VBX_Menu" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0">
             <Canvas x:Name="CNV_Menu" RenderTransformOrigin="0.5,0.5" Height="455" Width="852">
                 <Canvas.RenderTransform>
@@ -451,7 +544,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.6.6" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16" ClipToBounds="True" Height="30"/>
+                <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.7.1" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16" ClipToBounds="True" Height="30"/>
                 <Label x:Name="LBL_Header" Content="The" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="36" Height="45" Canvas.Top="-12" ClipToBounds="True"/>
                 <Label x:Name="LBL_Debug" Content="Debug Enabled" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="137" Canvas.Left="705" Background="#00000000" FontSize="16" Visibility="Hidden"/>
                 <Button x:Name="BTN_Options" Content="Options" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="BTN_Options_Click" Canvas.Left="515" Canvas.Top="185" RenderTransformOrigin="0.5,0.5" ToolTip="Configure the game's settings" ClipToBounds="True">

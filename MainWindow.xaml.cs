@@ -20,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using System.Windows.Media.Animation;
 
 namespace Project24
 {
@@ -43,7 +44,14 @@ namespace Project24
         List<string> CustomDeck1 = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild" };
         List<string> CustomDeck2 = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild" };
 
+        List<MDL_Foil> Foils = StatsManager.LoadFoils();
         List<MDL_Stats> stats = StatsManager.Load();
+
+        BitmapImage FoilTexture = new BitmapImage(new Uri("Resources/FL_Default.png", UriKind.Relative));
+
+        BitmapImage DefaultFoil = new BitmapImage(new Uri("Resources/FL_Default.png", UriKind.Relative));
+
+        byte SelectedFoil = 0;
 
         SCR_Deck PlrDeck = new SCR_Deck(false, false, 52, null);
         SCR_Deck CPUDeck = new SCR_Deck(false, false, 52, null);
@@ -61,6 +69,7 @@ namespace Project24
         {
             InitializeComponent();
             dbug.Close();
+            BitmapImage FoilTexture = new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative));
             RoutedCommand Debug = new RoutedCommand();
             Debug.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control | ModifierKeys.Shift));
             CommandBindings.Add(new CommandBinding(Debug, DebugToggle));
@@ -73,6 +82,7 @@ namespace Project24
             RoutedCommand Fullscreen = new RoutedCommand();
             Fullscreen.InputGestures.Add(new KeyGesture(Key.F11));
             CommandBindings.Add(new CommandBinding(Fullscreen, FullscreenToggle));
+            UpdateCards();
         }
 
         private async Task TakeFocus()
@@ -191,6 +201,7 @@ namespace Project24
             LBL_Playcard.Visibility = Visibility.Hidden;
             BTN_Pass.IsEnabled = false;
             BTN_Pass.Visibility = Visibility.Hidden;
+            GRD_Playcard.Background = new ImageBrush(DefaultFoil);
             DealCards();
             PlayerTurn();
         }
@@ -371,6 +382,7 @@ namespace Project24
                 LBL_Playcard.Visibility = Visibility.Hidden;
                 LBL_Playcard.Content = 0;
             }
+            GRD_Playcard.Background = new ImageBrush(DefaultFoil);
             if (RCT_EcardV.IsVisible)
             {
                 RCT_EcardV.Visibility = Visibility.Hidden;
@@ -432,6 +444,62 @@ namespace Project24
             // This is nothing but the remnants of an old scaling setup
         }
 
+        async Task CPUDraw()
+        {
+            if (CBX_Animations.IsChecked == true)
+            {
+                RCT_EcardV.RenderTransformOrigin = new Point(0.5, 0.5);
+                RCT_EcardV.Visibility = Visibility.Visible;
+                TranslateTransform trn = new TranslateTransform();
+                DoubleAnimation topmove = new DoubleAnimation();
+                topmove.From = 10;
+                topmove.To = -4;
+                topmove.Duration = TimeSpan.FromMilliseconds(150);
+                DoubleAnimation leftmove = new DoubleAnimation();
+                leftmove.From = -634;
+                leftmove.To = -4;
+                leftmove.Duration = TimeSpan.FromMilliseconds(200);
+                Canvas.SetTop(RCT_EcardV, Canvas.GetTop(RCT_Edeck));
+                Canvas.SetLeft(RCT_EcardV, Canvas.GetLeft(RCT_Edeck));
+                trn.BeginAnimation(TranslateTransform.YProperty, topmove);
+                trn.BeginAnimation(TranslateTransform.XProperty, leftmove);
+                RCT_EcardV.RenderTransform = trn;
+                Canvas.SetTop(RCT_EcardV, 10);
+                Canvas.SetLeft(RCT_EcardV, 642);
+                await Task.Delay(201);
+                RCT_EcardV.RenderTransform = new ScaleTransform(1, 1);
+            }
+        }
+
+        
+        async Task DrawCard()
+        {
+            if (CBX_Animations.IsChecked == true)
+            {
+                BTN_CardV.RenderTransformOrigin = new Point(0.5, 0.5);
+                BTN_CardV.Visibility = Visibility.Visible;
+                TranslateTransform trn = new TranslateTransform();
+                DoubleAnimation topmove = new DoubleAnimation();
+                topmove.From = -61;
+                topmove.To = 4;
+                topmove.Duration = TimeSpan.FromMilliseconds(150);
+                DoubleAnimation leftmove = new DoubleAnimation();
+                leftmove.From = 106;
+                leftmove.To = -4;
+                leftmove.Duration = TimeSpan.FromMilliseconds(200);
+                Canvas.SetTop(BTN_CardV, Canvas.GetTop(RCT_Deck));
+                Canvas.SetLeft(BTN_CardV, Canvas.GetLeft(RCT_Deck));
+                trn.BeginAnimation(TranslateTransform.YProperty, topmove);
+                await Task.Delay(150);
+                trn.BeginAnimation(TranslateTransform.XProperty, leftmove);
+                BTN_CardV.RenderTransform = trn;
+                Canvas.SetTop(BTN_CardV, 305);
+                Canvas.SetLeft(BTN_CardV, 642);
+                await Task.Delay(205);
+                BTN_CardV.RenderTransform = new ScaleTransform(1, 1);
+            }
+        }
+
         async Task EndGame()
         {
             await Task.Delay(2500);
@@ -456,6 +524,7 @@ namespace Project24
             }
             await Task.Delay(2500);
             LBL_Playcard.Visibility = Visibility.Hidden;
+            GRD_Playcard.Background = new ImageBrush(DefaultFoil);
             BTN_Pass.IsEnabled = false;
             BTN_Pass.Visibility = Visibility.Hidden;
             if (plrscore)
@@ -482,6 +551,7 @@ namespace Project24
                 PlrHand.Add(Plrdraw);
                 BTN_CardV.Content = PlrHand[4];
                 BTN_CardV.Visibility = Visibility.Visible;
+                await DrawCard();
             }
             string CPUdraw = null;
             if (CPUHand.Count < 5)
@@ -494,6 +564,7 @@ namespace Project24
                 RCT_EcardV.Visibility = Visibility.Visible;
                 RCT_EcardIV.Visibility = Visibility.Visible;
                 RCT_EcardIII.Visibility = Visibility.Visible;
+                await CPUDraw();
             }
             LBL_CPUDeck.Content = CPUDeck.cards.Count();
             LBL_PlrDeck.Content = PlrDeck.cards.Count();
@@ -708,6 +779,7 @@ namespace Project24
                 }
                 if (playedcard)
                 {
+                    GRD_Playcard.Background = new ImageBrush(DefaultFoil);
                     if (RCT_EcardV.IsVisible)
                     {
                         RCT_EcardV.Visibility = Visibility.Hidden;
@@ -746,6 +818,7 @@ namespace Project24
             if (turn)
             {
                 LBL_Playcard.Visibility = Visibility.Visible;
+                GRD_Playcard.Background = new ImageBrush(FoilTexture);
                 switch (name)
                 {
                     case "BTN_CardI":
@@ -830,6 +903,7 @@ namespace Project24
                 BTN_Pass.Visibility = Visibility.Hidden;
                 sbyte remainder = 0;
                 LBL_Playcard.Visibility = Visibility.Visible;
+                GRD_Playcard.Background = new ImageBrush(FoilTexture);
                 byte played = Convert.ToByte(LBL_Playcard.Content);
                 switch (name)
                 {
@@ -1263,6 +1337,22 @@ namespace Project24
             }
         }
 
+        private void CardHover(object sender, MouseEventArgs e)
+        {
+            (sender as Button).RenderTransformOrigin = new Point(0.5, 1);
+            (sender as Button).RenderTransform = new ScaleTransform(1.15, 1.15, 0, 0);
+            //(sender as Button).Width = 125;
+            //(sender as Button).Height = 165;
+        }
+
+        private void NotCardHover(object sender, MouseEventArgs e)
+        {
+            (sender as Button).RenderTransformOrigin = new Point(0.5, 1);
+            (sender as Button).RenderTransform = new ScaleTransform(1, 1, 0, 0);
+            //(sender as Button).Width = 100;
+            //(sender as Button).Height = 140;
+        }
+
         private void BTN_Customize_Click(object sender, RoutedEventArgs e)
         {
             CNV_GameSelect.IsEnabled = false;
@@ -1272,6 +1362,69 @@ namespace Project24
             if (CBX_Shared.IsChecked == false)
             {
                 CNV_Deck2.IsEnabled = true;
+            }
+        }
+
+        private void BTN_GoBack_Click(object sender, RoutedEventArgs e)
+        {
+            CNV_Foils.IsEnabled = false;
+            CNV_Foils.Visibility = Visibility.Hidden;
+            CNV_Options.Visibility = Visibility.Visible;
+            CNV_Options.IsEnabled = true;
+        }
+
+        private void UpdateCards()
+        {
+            BTN_CardI.Background = new ImageBrush(FoilTexture);
+            BTN_CardII.Background = new ImageBrush(FoilTexture);
+            BTN_CardIII.Background = new ImageBrush(FoilTexture);
+            BTN_CardIV.Background = new ImageBrush(FoilTexture);
+            BTN_CardV.Background = new ImageBrush(FoilTexture);
+        }
+
+        private void BTN_Foils_Click(object sender, RoutedEventArgs e)
+        {
+            List<MDL_Foil> Foils = StatsManager.LoadFoils();
+            CNV_Options.IsEnabled = false;
+            CNV_Options.Visibility = Visibility.Hidden;
+            CNV_Foils.Visibility = Visibility.Visible;
+            CNV_Foils.IsEnabled = true;
+            BTN_FoilDisp.Background = new ImageBrush(new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative)));
+        }
+
+        private void BTN_Next_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SelectedFoil += 1;
+                FoilTexture = new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative));
+                BTN_FoilDisp.Background = new ImageBrush(FoilTexture);
+                UpdateCards();
+            }
+            catch (System.ArgumentOutOfRangeException)
+            {
+                SelectedFoil = 0;
+                FoilTexture = new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative));
+                BTN_FoilDisp.Background = new ImageBrush(FoilTexture);
+                UpdateCards();
+            }
+        }
+
+        private void BTN_Prev_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SelectedFoil -= 1;
+                FoilTexture = new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative));
+                BTN_FoilDisp.Background = new ImageBrush(FoilTexture);
+                UpdateCards();
+            }
+            catch (System.ArgumentOutOfRangeException)
+            {
+                SelectedFoil = Convert.ToByte(Foils.Count - 1);
+                FoilTexture = new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative));
+                BTN_FoilDisp.Background = new ImageBrush(FoilTexture);
+                UpdateCards();
             }
         }
     }

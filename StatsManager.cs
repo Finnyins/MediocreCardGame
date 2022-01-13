@@ -1,5 +1,5 @@
 ﻿// Finn O'Brien
-// Project 24 (Stats database manager)
+// Project 24 (database manager)
 // 12/9/2021
 
 
@@ -24,6 +24,17 @@ namespace Project24
                 conn.Execute("create table if not exists Stats (GameMode NOT NULL UNIQUE, Wins  INTEGER, Losses INTEGER, Ties  INTEGER, PRIMARY KEY(GameMode))");
                 conn.Execute("insert or ignore into Stats (GameMode) values ('Classic')");
                 conn.Execute("insert or ignore into Stats (GameMode) values ('Custom')");
+                conn.Execute("create table if not exists Foils (ID NOT NULL UNIQUE, Name TEXT, File TEXT, PRIMARY KEY(ID))");
+            }
+        }
+
+        public static List<MDL_Foil> LoadFoils()
+        {
+            VerifyTable();
+            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString(), true))
+            {
+                List<MDL_Foil> output = conn.Query<MDL_Foil>("select * from Foils", new DynamicParameters()).ToList();
+                return output;
             }
         }
 
