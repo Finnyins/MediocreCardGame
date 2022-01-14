@@ -25,6 +25,7 @@ namespace Project24
                 conn.Execute("insert or ignore into Stats (GameMode) values ('Classic')");
                 conn.Execute("insert or ignore into Stats (GameMode) values ('Custom')");
                 conn.Execute("create table if not exists Foils (ID NOT NULL UNIQUE, Name TEXT, File TEXT, PRIMARY KEY(ID))");
+                conn.Execute("insert or ignore into Foils (ID, Name, File) values (0, 'Default', '/Resources/FL_Default.png')");
             }
         }
 

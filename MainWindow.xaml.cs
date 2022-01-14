@@ -4,6 +4,7 @@
 
 
 using System;
+using System.Xml.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Threading;
@@ -21,6 +22,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Animation;
+using System.Xml.Linq;
+using System.IO;
 
 namespace Project24
 {
@@ -47,9 +50,9 @@ namespace Project24
         List<MDL_Foil> Foils = StatsManager.LoadFoils();
         List<MDL_Stats> stats = StatsManager.Load();
 
-        BitmapImage FoilTexture = new BitmapImage(new Uri("Resources/FL_Default.png", UriKind.Relative));
+        BitmapImage FoilTexture = new BitmapImage(new Uri("pack://application:,,,/Resources/FL_Default.png", UriKind.Absolute));
 
-        BitmapImage DefaultFoil = new BitmapImage(new Uri("Resources/FL_Default.png", UriKind.Relative));
+        BitmapImage DefaultFoil = new BitmapImage(new Uri("pack://application:,,,/Resources/FL_Default.png", UriKind.Absolute));
 
         byte SelectedFoil = 0;
 
@@ -69,7 +72,8 @@ namespace Project24
         {
             InitializeComponent();
             dbug.Close();
-            BitmapImage FoilTexture = new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative));
+            LoadSettings();
+            FoilTexture = new BitmapImage(new Uri($"pack://application:,,,{Foils[SelectedFoil].File}", UriKind.Absolute));
             RoutedCommand Debug = new RoutedCommand();
             Debug.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control | ModifierKeys.Shift));
             CommandBindings.Add(new CommandBinding(Debug, DebugToggle));
@@ -83,6 +87,60 @@ namespace Project24
             Fullscreen.InputGestures.Add(new KeyGesture(Key.F11));
             CommandBindings.Add(new CommandBinding(Fullscreen, FullscreenToggle));
             UpdateCards();
+        }
+
+        private void LoadSettings()
+        {
+            XDocument settings = new XDocument();
+
+            if(!File.Exists("Settings.xml"))
+            {
+                settings = new XDocument
+                    (
+                    new XComment("User Settings Data"),
+                    new XElement("Root",
+                        new XElement("Fullscreen", CBX_Fullscreen.IsChecked),
+                        new XElement("Animations", CBX_Animations.IsChecked),
+                        new XElement("Foil_ID", SelectedFoil)
+                        )
+                    );
+                settings.Save("Settings.xml");
+            }
+            else
+            {
+                settings = XDocument.Load("Settings.xml");
+                CBX_Fullscreen.IsChecked = Convert.ToBoolean(settings.Root.Element("Fullscreen").Value);
+                CBX_Animations.IsChecked = Convert.ToBoolean(settings.Root.Element("Animations").Value);
+                SelectedFoil = Convert.ToByte(settings.Root.Element("Foil_ID").Value);
+                CBX_Fullscreen_Click(null, null);
+            }
+        }
+
+        private void SaveSettings()
+        {
+            XDocument settings = new XDocument();
+
+            if (!File.Exists("Settings.xml"))
+            {
+                settings = new XDocument
+                    (
+                    new XComment("User Settings Data"),
+                    new XElement("Root",
+                        new XElement("Fullscreen", CBX_Fullscreen.IsChecked),
+                        new XElement("Animations", CBX_Animations.IsChecked),
+                        new XElement("Foil_ID", SelectedFoil)
+                        )
+                    );
+                settings.Save("Settings.xml");
+            }
+            else
+            {
+                settings = XDocument.Load("Settings.xml");
+                settings.Root.Element("Fullscreen").Value = Convert.ToString(CBX_Fullscreen.IsChecked);
+                settings.Root.Element("Animations").Value = Convert.ToString(CBX_Animations.IsChecked);
+                settings.Root.Element("Foil_ID").Value = Convert.ToString(SelectedFoil);
+                settings.Save("Settings.xml");
+            }
         }
 
         private async Task TakeFocus()
@@ -1151,6 +1209,7 @@ namespace Project24
 
         private void BTN_BackToMain_Click(object sender, RoutedEventArgs e)
         {
+            SaveSettings();
             CNV_Options.IsEnabled = false;
             CNV_Options.Visibility = Visibility.Hidden;
             CNV_Menu.IsEnabled = true;
@@ -1389,7 +1448,7 @@ namespace Project24
             CNV_Options.Visibility = Visibility.Hidden;
             CNV_Foils.Visibility = Visibility.Visible;
             CNV_Foils.IsEnabled = true;
-            BTN_FoilDisp.Background = new ImageBrush(new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative)));
+            BTN_FoilDisp.Background = new ImageBrush(new BitmapImage(new Uri($"pack://application:,,,{Foils[SelectedFoil].File}", UriKind.Absolute)));
         }
 
         private void BTN_Next_Click(object sender, RoutedEventArgs e)
@@ -1397,14 +1456,14 @@ namespace Project24
             try
             {
                 SelectedFoil += 1;
-                FoilTexture = new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative));
+                FoilTexture = new BitmapImage(new Uri($"pack://application:,,,{Foils[SelectedFoil].File}", UriKind.Absolute));
                 BTN_FoilDisp.Background = new ImageBrush(FoilTexture);
                 UpdateCards();
             }
             catch (System.ArgumentOutOfRangeException)
             {
                 SelectedFoil = 0;
-                FoilTexture = new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative));
+                FoilTexture = new BitmapImage(new Uri($"pack://application:,,,{Foils[SelectedFoil].File}", UriKind.Absolute));
                 BTN_FoilDisp.Background = new ImageBrush(FoilTexture);
                 UpdateCards();
             }
@@ -1415,14 +1474,14 @@ namespace Project24
             try
             {
                 SelectedFoil -= 1;
-                FoilTexture = new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative));
+                FoilTexture = new BitmapImage(new Uri($"pack://application:,,,{Foils[SelectedFoil].File}", UriKind.Absolute));
                 BTN_FoilDisp.Background = new ImageBrush(FoilTexture);
                 UpdateCards();
             }
             catch (System.ArgumentOutOfRangeException)
             {
                 SelectedFoil = Convert.ToByte(Foils.Count - 1);
-                FoilTexture = new BitmapImage(new Uri(Foils[SelectedFoil].File, UriKind.Relative));
+                FoilTexture = new BitmapImage(new Uri($"pack://application:,,,{Foils[SelectedFoil].File}", UriKind.Absolute));
                 BTN_FoilDisp.Background = new ImageBrush(FoilTexture);
                 UpdateCards();
             }
