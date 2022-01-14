@@ -838,7 +838,10 @@ namespace Project24
                 }
                 if (playedcard)
                 {
-                    GRD_Playcard.Background = new ImageBrush(DefaultFoil);
+                    if (CPUHand.Count != 0)
+                    {
+                        GRD_Playcard.Background = new ImageBrush(DefaultFoil);
+                    }
                     if (RCT_EcardV.IsVisible)
                     {
                         RCT_EcardV.Visibility = Visibility.Hidden;
