@@ -153,6 +153,7 @@ namespace Project24
         {
             CBX_Fullscreen.IsChecked ^= true;
             CBX_Fullscreen_Click(null, null);
+            SaveSettings();
         }
 
         private void QuitMatch(Object sender, ExecutedRoutedEventArgs a)
