@@ -21,11 +21,12 @@ namespace Project24
         {
             using (IDbConnection conn = new SQLiteConnection(LoadConnectionString(), true))
             {
-                conn.Execute("create table if not exists Stats (GameMode NOT NULL UNIQUE, Wins  INTEGER, Losses INTEGER, Ties  INTEGER, PRIMARY KEY(GameMode))");
+                conn.Execute("create table if not exists Stats (GameMode INTEGER NOT NULL UNIQUE, Wins  INTEGER, Losses INTEGER, Ties  INTEGER, PRIMARY KEY(GameMode))");
                 conn.Execute("insert or ignore into Stats (GameMode) values ('Classic')");
                 conn.Execute("insert or ignore into Stats (GameMode) values ('Custom')");
-                conn.Execute("create table if not exists Foils (ID NOT NULL UNIQUE, Name TEXT, File TEXT, PRIMARY KEY(ID))");
-                conn.Execute("insert or ignore into Foils (ID, Name, File) values (0, 'Default', '/Resources/FL_Default.png')");
+                conn.Execute("create table if not exists Foils (ID INTEGER NOT NULL UNIQUE, Name TEXT NOT NULL UNIQUE, File TEXT, PRIMARY KEY(ID AUTOINCREMENT))");
+                conn.Execute("insert or ignore into Foils (Name, File) values ('Default', '/Resources/FL_Default.png')");
+                conn.Execute("insert or ignore into Foils (Name, File) values ('Secondary', '/Resources/FL_Secondary.png')");
             }
         }
 

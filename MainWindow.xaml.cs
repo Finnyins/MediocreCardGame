@@ -54,6 +54,8 @@ namespace Project24
 
         BitmapImage DefaultFoil = new BitmapImage(new Uri("pack://application:,,,/Resources/FL_Default.png", UriKind.Absolute));
 
+        BitmapImage CPUFoil = new BitmapImage(new Uri("pack://application:,,,/Resources/FL_CPU.png", UriKind.Absolute));
+
         byte SelectedFoil = 0;
 
         SCR_Deck PlrDeck = new SCR_Deck(false, false, 52, null);
@@ -441,7 +443,7 @@ namespace Project24
                 LBL_Playcard.Visibility = Visibility.Hidden;
                 LBL_Playcard.Content = 0;
             }
-            GRD_Playcard.Background = new ImageBrush(DefaultFoil);
+            GRD_Playcard.Background = new ImageBrush(CPUFoil);
             if (RCT_EcardV.IsVisible)
             {
                 RCT_EcardV.Visibility = Visibility.Hidden;
@@ -840,7 +842,7 @@ namespace Project24
                 {
                     if (CPUHand.Count != 0)
                     {
-                        GRD_Playcard.Background = new ImageBrush(DefaultFoil);
+                        GRD_Playcard.Background = new ImageBrush(CPUFoil);
                     }
                     if (RCT_EcardV.IsVisible)
                     {
