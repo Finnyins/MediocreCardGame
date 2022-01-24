@@ -42,6 +42,8 @@ namespace Project24
 
         bool Debug = false;
 
+        bool Unlock = false;
+
         byte Gamemode = 3;
 
         List<string> CustomDeck1 = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Wild" };
@@ -563,7 +565,10 @@ namespace Project24
 
         async Task EndGame()
         {
-            await Task.Delay(2500);
+            if (Unlock == false)
+            {
+                await Task.Delay(2500);
+            }
             Gamemode = 3;
             CNV_Victory.IsEnabled = false;
             CNV_Victory.Visibility = Visibility.Hidden;
@@ -647,6 +652,7 @@ namespace Project24
                         stats[Gamemode].Wins += 1;
                         if (Gamemode == 0 && CPUPoints == 0)
                         {
+                            Foils = StatsManager.LoadFoils();
                             bool unlocked = false;
                             foreach (MDL_Foil foil in Foils)
                             {
@@ -656,8 +662,12 @@ namespace Project24
                                 }
                             }
                             StatsManager.PerfectWin();
+                            Foils = StatsManager.LoadFoils();
                             if (unlocked == false)
                             {
+                                Unlock = true;
+                                CNV_Victory.Visibility = Visibility.Visible;
+                                await Task.Delay(2500);
                                 CNV_Unlock.Visibility = Visibility.Visible;
                                 LBL_Unlocked.Content = "Card Set: Gold";
                                 BTN_UnlockCard.Visibility = Visibility.Visible;
@@ -669,7 +679,6 @@ namespace Project24
                             }
                         }
                     }
-
                 }
                 else if (PlrPoints < CPUPoints)
                 {
@@ -1498,7 +1507,7 @@ namespace Project24
 
         private void BTN_Foils_Click(object sender, RoutedEventArgs e)
         {
-            List<MDL_Foil> Foils = StatsManager.LoadFoils();
+            Foils = StatsManager.LoadFoils();
             CNV_Options.IsEnabled = false;
             CNV_Options.Visibility = Visibility.Hidden;
             CNV_Foils.Visibility = Visibility.Visible;
