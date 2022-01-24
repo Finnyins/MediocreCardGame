@@ -647,15 +647,26 @@ namespace Project24
                         stats[Gamemode].Wins += 1;
                         if (Gamemode == 0 && CPUPoints == 0)
                         {
+                            bool unlocked = false;
+                            foreach (MDL_Foil foil in Foils)
+                            {
+                                if (foil.Name == "Gold")
+                                {
+                                    unlocked = true;
+                                }
+                            }
                             StatsManager.PerfectWin();
-                            CNV_Unlock.Visibility = Visibility.Visible;
-                            LBL_Unlocked.Content = "Card Set: Gold";
-                            BTN_UnlockCard.Visibility = Visibility.Visible;
-                            BTN_UnlockCard.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/FL_Gold.png", UriKind.Absolute)));
-                            await Task.Delay(2500);
-                            CNV_Unlock.Visibility = Visibility.Hidden;
-                            LBL_Unlocked.Content = "[none]";
-                            BTN_UnlockCard.Visibility = Visibility.Hidden;
+                            if (unlocked == false)
+                            {
+                                CNV_Unlock.Visibility = Visibility.Visible;
+                                LBL_Unlocked.Content = "Card Set: Gold";
+                                BTN_UnlockCard.Visibility = Visibility.Visible;
+                                BTN_UnlockCard.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/FL_Gold.png", UriKind.Absolute)));
+                                await Task.Delay(2500);
+                                CNV_Unlock.Visibility = Visibility.Hidden;
+                                LBL_Unlocked.Content = "[none]";
+                                BTN_UnlockCard.Visibility = Visibility.Hidden;
+                            }
                         }
                     }
 
