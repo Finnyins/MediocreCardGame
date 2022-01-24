@@ -645,6 +645,10 @@ namespace Project24
                     if (Gamemode != 4)
                     {
                         stats[Gamemode].Wins += 1;
+                        if (Gamemode == 0 && CPUPoints == 0)
+                        {
+
+                        }
                     }
 
                 }
@@ -1086,6 +1090,26 @@ namespace Project24
         {
             CNV_Menu.IsEnabled = false;
             CNV_Menu.Visibility = Visibility.Hidden;
+            CNV_GameType.IsEnabled = true;
+            CNV_GameType.Visibility = Visibility.Visible;
+        }
+
+        private void BTN_Classic_Click(object sender, RoutedEventArgs e)
+        {
+            Gamemode = 0;
+            PlrDeck = new SCR_Deck(false, false, 52, CustomDeck1);
+            CPUDeck = new SCR_Deck(false, false, 52, CustomDeck2);
+            CNV_GameType.IsEnabled = false;
+            CNV_GameType.Visibility = Visibility.Hidden;
+            CNV_Play.Visibility = Visibility.Visible;
+            CNV_Play.IsEnabled = true;
+            StartGame();
+        }
+
+        private void BTN_Custom_Click(object sender, RoutedEventArgs e)
+        {
+            CNV_GameType.IsEnabled = false;
+            CNV_GameType.Visibility = Visibility.Hidden;
             CNV_GameSelect.IsEnabled = true;
             CNV_GameSelect.Visibility = Visibility.Visible;
         }
@@ -1140,10 +1164,16 @@ namespace Project24
             }
         }
 
-        private void BTN_Back_Click(object sender, RoutedEventArgs e)
+        private void BTN_BackCustom_Click(object sender, RoutedEventArgs e)
         {
             CNV_GameSelect.IsEnabled = false;
             CNV_GameSelect.Visibility = Visibility.Hidden;
+            CNV_GameType.IsEnabled = true;
+            CNV_GameType.Visibility = Visibility.Visible;
+        }
+
+        private void BTN_Back_Click(object sender, RoutedEventArgs e)
+        {
             CNV_Stats.IsEnabled = false;
             CNV_Stats.Visibility = Visibility.Hidden;
             CNV_Menu.IsEnabled = true;
@@ -1491,6 +1521,14 @@ namespace Project24
                 BTN_FoilDisp.Background = new ImageBrush(FoilTexture);
                 UpdateCards();
             }
+        }
+
+        private void BTN_Back2Menu_Click(object sender, RoutedEventArgs e)
+        {
+            CNV_GameType.IsEnabled = false;
+            CNV_GameType.Visibility = Visibility.Hidden;
+            CNV_Menu.Visibility = Visibility.Visible;
+            CNV_Menu.IsEnabled = true;
         }
     }
 }

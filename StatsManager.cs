@@ -30,6 +30,15 @@ namespace Project24
             }
         }
 
+        public void PerfectWin()
+        {
+            VerifyTable();
+            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString(), true))
+            {
+                conn.Execute("insert or ignore into Foils (Name, File) values ('Gold', '/Resources/FL_Gold.png')");
+            }
+        }
+
         public static List<MDL_Foil> LoadFoils()
         {
             VerifyTable();
