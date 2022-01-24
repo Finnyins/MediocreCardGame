@@ -214,6 +214,31 @@
                 <Label x:Name="LBL_Win" Content="Wins!" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="140" Canvas.Top="126"/>
             </Canvas>
         </Viewbox>
+        <Viewbox x:Name="VBX_Unlock" OpacityMask="#FFCB1A1A" Margin="0,0,0,-0.6" Stretch="UniformToFill">
+            <Canvas x:Name="CNV_Unlock" HorizontalAlignment="Left" Height="228" VerticalAlignment="Top" Width="417" Visibility="Hidden">
+                <Canvas.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFE4CF18" Offset="0"/>
+                        <GradientStop Color="#FF736C2E" Offset="1"/>
+                    </LinearGradientBrush>
+                </Canvas.Background>
+                <Label x:Name="LBL_YouUnlocked" Content="You Unlocked:" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="10" Width="396"/>
+                <Label x:Name="LBL_Unlocked" Content="[none]" Background="{x:Null}" FontFamily="Algerian" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Canvas.Top="58" Width="396" Canvas.Left="10"/>
+                <Button x:Name="BTN_UnlockCard" Content="" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="159" Canvas.Top="68" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False" Visibility="Hidden">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="Resources/FL_Default.png"/>
+                    </Button.Background>
+                </Button>
+            </Canvas>
+        </Viewbox>
         <Viewbox x:Name="VBX_Stats" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0,0,0,-0.2">
             <Canvas x:Name="CNV_Stats" Height="455" Width="852" Visibility="Hidden" IsEnabled="False">
                 <Canvas.Background>

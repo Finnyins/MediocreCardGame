@@ -30,7 +30,7 @@ namespace Project24
             }
         }
 
-        public void PerfectWin()
+        public static void PerfectWin()
         {
             VerifyTable();
             using (IDbConnection conn = new SQLiteConnection(LoadConnectionString(), true))
