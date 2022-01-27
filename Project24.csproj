@@ -32,8 +32,8 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.7.3.1</ApplicationVersion>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.7.5.2</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -311,13 +311,28 @@
     <Resource Include="Resources\FL_Default.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\FL_Holo.png" />
+    <Resource Include="Resources\FL_Irridescent.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\FL_CPU.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\FL_Secondary.png" />
+    <Resource Include="Resources\FL_Contrast.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\FL_Ruby.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\FL_Sapphire.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\FL_Emerald.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\FL_Diamond.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\FL_Holo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
