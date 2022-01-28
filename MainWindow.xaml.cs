@@ -77,6 +77,7 @@ namespace Project24
             InitializeComponent();
             dbug.Close();
             LoadSettings();
+            Foils = StatsManager.LoadFoils();
             FoilTexture = new BitmapImage(new Uri($"pack://application:,,,{Foils[SelectedFoil].File}", UriKind.Absolute));
             RoutedCommand Debug = new RoutedCommand();
             Debug.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control | ModifierKeys.Shift));
@@ -116,6 +117,11 @@ namespace Project24
                 CBX_Fullscreen.IsChecked = Convert.ToBoolean(settings.Root.Element("Fullscreen").Value);
                 CBX_Animations.IsChecked = Convert.ToBoolean(settings.Root.Element("Animations").Value);
                 SelectedFoil = Convert.ToByte(settings.Root.Element("Foil_ID").Value);
+                if (SelectedFoil > (Foils.Count - 1))
+                {
+                    SelectedFoil = 0;
+                    SaveSettings();
+                }
                 CBX_Fullscreen_Click(null, null);
             }
         }
