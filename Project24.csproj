@@ -320,19 +320,15 @@
     <Resource Include="Resources\FL_Contrast.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\FL_Ruby.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\FL_Sapphire.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\FL_Emerald.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\FL_Diamond.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\FL_Holo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\FL_Emerald.png" />
+    <Resource Include="Resources\FL_Ruby.png" />
+    <Resource Include="Resources\FL_Sapphire.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />

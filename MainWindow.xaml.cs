@@ -925,35 +925,35 @@ namespace Project24
                 {
                     case "BTN_CardI":
                         value = PlrHand[0];
-                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Foreground = Brushes.Black;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(0);
                         break;
 
                     case "BTN_CardII":
                         value = PlrHand[1];
-                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Foreground = Brushes.Black;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(1);
                         break;
 
                     case "BTN_CardIII":
                         value = PlrHand[2];
-                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Foreground = Brushes.Black;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(2);
                         break;
 
                     case "BTN_CardIV":
                         value = PlrHand[3];
-                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Foreground = Brushes.Black;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(3);
                         break;
 
                     case "BTN_CardV":
                         value = PlrHand[4];
-                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Foreground = Brushes.Black;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(4);
                         break;
@@ -1011,35 +1011,35 @@ namespace Project24
                 {
                     case "BTN_CardI":
                         value = PlrHand[0];
-                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Foreground = Brushes.Black;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(0);
                         break;
 
                     case "BTN_CardII":
                         value = PlrHand[1];
-                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Foreground = Brushes.Black;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(1);
                         break;
 
                     case "BTN_CardIII":
                         value = PlrHand[2];
-                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Foreground = Brushes.Black;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(2);
                         break;
 
                     case "BTN_CardIV":
                         value = PlrHand[3];
-                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Foreground = Brushes.Black;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(3);
                         break;
 
                     case "BTN_CardV":
                         value = PlrHand[4];
-                        LBL_Playcard.Foreground = Brushes.Green;
+                        LBL_Playcard.Foreground = Brushes.Black;
                         LBL_Playcard.Content = value;
                         PlrHand.RemoveAt(4);
                         break;
