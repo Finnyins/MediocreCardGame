@@ -40,6 +40,15 @@ namespace Project24
             }
         }
 
+        public static void UnlockCard(string name, string file)
+        {
+            VerifyTable();
+            using (IDbConnection conn = new SQLiteConnection(LoadConnectionString(), true))
+            {
+                conn.Execute($"insert or ignore into Foils (Name, File) values ('{name}', '/Resources/FL_{file}.png')");
+            }
+        }
+
         public static List<MDL_Foil> LoadFoils()
         {
             VerifyTable();

@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Media.Animation;
 using System.Xml.Linq;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace Project24
 {
@@ -35,6 +36,8 @@ namespace Project24
         // These two doubles serve no purpose. They are remnants of a scrapped scaling method.
         double sizeX = 852;
         double sizeY = 480.8;
+
+        RNGCryptoServiceProvider numbergen = new RNGCryptoServiceProvider();
 
         WIN_Debug dbug = new WIN_Debug();
 
@@ -91,6 +94,7 @@ namespace Project24
             RoutedCommand Fullscreen = new RoutedCommand();
             Fullscreen.InputGestures.Add(new KeyGesture(Key.F11));
             CommandBindings.Add(new CommandBinding(Fullscreen, FullscreenToggle));
+            numbergen = new RNGCryptoServiceProvider();
             UpdateCards();
         }
 
@@ -582,6 +586,7 @@ namespace Project24
             CNV_Play.Visibility = Visibility.Hidden;
             CNV_Menu.IsEnabled = true;
             CNV_Menu.Visibility = Visibility.Visible;
+            Unlock = false;
         }
 
         async Task EndTurn(bool plrscore, byte points)
@@ -655,6 +660,9 @@ namespace Project24
                     LBL_Victor.Content = "Player";
                     if (Gamemode != 4)
                     {
+                        bool cardget = false;
+                        string cardgetname = "";
+                        string cardgetfile = "";
                         stats[Gamemode].Wins += 1;
                         if (Gamemode == 0 && CPUPoints == 0)
                         {
@@ -678,6 +686,91 @@ namespace Project24
                                 LBL_Unlocked.Content = "Card Set: Gold";
                                 BTN_UnlockCard.Visibility = Visibility.Visible;
                                 BTN_UnlockCard.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Resources/FL_Gold.png", UriKind.Absolute)));
+                                await Task.Delay(2500);
+                                CNV_Unlock.Visibility = Visibility.Hidden;
+                                LBL_Unlocked.Content = "[none]";
+                                BTN_UnlockCard.Visibility = Visibility.Hidden;
+                            }
+                        }
+                        else if (Gamemode == 0)
+                        {
+                            byte[] rng = new byte[4];
+                            numbergen.GetBytes(rng);
+                            int roll = BitConverter.ToInt32(rng, 0);
+                            int rand = new Random(roll).Next(1000);
+                            ConsoleWriteLine(Convert.ToString(rand));
+                            switch (rand)
+                            {
+                                case var expression when rand < 20:
+                                    cardget = true;
+                                    cardgetname = "Rainbow";
+                                    cardgetfile = "Rainbow";
+                                    break;
+
+                                case var expression when rand > 640 && rand < 656:
+                                    cardget = true;
+                                    cardgetname = "Irridescent";
+                                    cardgetfile = "Irridescent";
+                                    break;
+
+                                case var expression when rand > 320 && rand < 333:
+                                    cardget = true;
+                                    cardgetname = "Holographic";
+                                    cardgetfile = "Holo";
+                                    break;
+
+                                case var expression when rand > 80 && rand < 91:
+                                    cardget = true;
+                                    cardgetname = "Emerald";
+                                    cardgetfile = "Emerald";
+                                    break;
+
+                                case var expression when rand > 90 && rand < 101:
+                                    cardget = true;
+                                    cardgetname = "Ruby";
+                                    cardgetfile = "Ruby";
+                                    break;
+
+                                case var expression when rand > 100 && rand < 111:
+                                    cardget = true;
+                                    cardgetname = "Sapphire";
+                                    cardgetfile = "Sapphire";
+                                    break;
+
+                                case var expression when rand > 76 && rand < 78:
+                                    cardget = true;
+                                    cardgetname = "Diamond";
+                                    cardgetfile = "Diamond";
+                                    break;
+
+                            }
+                            if (cardget)
+                            {
+                                Foils = StatsManager.LoadFoils();
+                                bool unlocked = false;
+                                foreach (MDL_Foil foil in Foils)
+                                {
+                                    if (foil.Name == cardgetname)
+                                    {
+                                        unlocked = true;
+                                    }
+                                }
+                                StatsManager.UnlockCard(cardgetname, cardgetfile);
+                                Foils = StatsManager.LoadFoils();
+                                Unlock = true;
+                                CNV_Victory.Visibility = Visibility.Visible;
+                                await Task.Delay(2500);
+                                CNV_Unlock.Visibility = Visibility.Visible;
+                                if (unlocked == false)
+                                {
+                                    LBL_Unlocked.Content = $"Card Set: {cardgetname}";
+                                }
+                                else
+                                {
+                                    LBL_Unlocked.Content = $"(DUPLICATE) Card Set: {cardgetname}";
+                                }
+                                BTN_UnlockCard.Visibility = Visibility.Visible;
+                                BTN_UnlockCard.Background = new ImageBrush(new BitmapImage(new Uri($"pack://application:,,,/Resources/FL_{cardgetfile}.png", UriKind.Absolute)));
                                 await Task.Delay(2500);
                                 CNV_Unlock.Visibility = Visibility.Hidden;
                                 LBL_Unlocked.Content = "[none]";
@@ -1243,14 +1336,14 @@ namespace Project24
             {
                 Gamemode = 4;
             }
-            PlrDeck = new SCR_Deck(custom, rdeck, decksize, CustomDeck1);
+            PlrDeck = new SCR_Deck(custom, rdeck, decksize, new List<string>(CustomDeck1));
             if (CBX_Shared.IsChecked == true)
             {
                 CPUDeck = PlrDeck;
             }
             else
             {
-                CPUDeck = new SCR_Deck(custom, rdeck, decksize, CustomDeck2);
+                CPUDeck = new SCR_Deck(custom, rdeck, decksize, new List<string>(CustomDeck2));
             }
             ConsoleWriteLine($"Gamemode: {Gamemode}");
             StartGame();
