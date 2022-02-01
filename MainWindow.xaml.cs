@@ -455,7 +455,10 @@ namespace Project24
                 LBL_Playcard.Visibility = Visibility.Hidden;
                 LBL_Playcard.Content = 0;
             }
-            GRD_Playcard.Background = new ImageBrush(CPUFoil);
+            if (cards != 0)
+            {
+                GRD_Playcard.Background = new ImageBrush(CPUFoil);
+            }
             if (RCT_EcardV.IsVisible)
             {
                 RCT_EcardV.Visibility = Visibility.Hidden;
