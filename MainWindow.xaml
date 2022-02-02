@@ -148,58 +148,126 @@
                     </TransformGroup>
                 </Canvas.LayoutTransform>
                 <Canvas.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF656565" Offset="0"/>
-                        <GradientStop Color="#FFE0E0E0" Offset="1"/>
-                    </LinearGradientBrush>
+                    <ImageBrush ImageSource="Resources/Board.png"/>
                 </Canvas.Background>
-                <Rectangle x:Name="RCT_Deck" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="748" Canvas.Top="244" Width="102" RenderTransformOrigin="0.5,0.5"/>
-                <Rectangle x:Name="RCT_Edeck" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="10" Canvas.Top="90" Width="103"/>
-                <Rectangle x:Name="RCT_EcardI" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="117" Canvas.Top="10" Width="103"/>
-                <Rectangle x:Name="RCT_EcardII" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="246" Canvas.Top="10" Width="103"/>
-                <Rectangle x:Name="RCT_EcardIII" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="377" Canvas.Top="10" Width="103"/>
-                <Rectangle x:Name="RCT_EcardIV" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="508" Canvas.Top="10" Width="103"/>
-                <Rectangle x:Name="RCT_EcardV" Fill="#FF484848" Stroke="Black" Height="140" Canvas.Left="642" Canvas.Top="10" Width="103"/>
-                <Label x:Name="LBL_Who" Content="Your" FontFamily="Algerian" FontSize="36" Height="58" Canvas.Left="3" Canvas.Top="333" Width="104"/>
-                <Label x:Name="LBL_Turn" Content="Turn" FontFamily="Algerian" FontSize="36" Height="59" Canvas.Left="3" Canvas.Top="390" Width="101"/>
+                <Rectangle x:Name="RCT_Deck" Height="140" Canvas.Left="748" Canvas.Top="244" Width="102" RenderTransformOrigin="0.5,0.5">
+                    <Rectangle.Stroke>
+                        <SolidColorBrush Color="Black" Opacity="0"/>
+                    </Rectangle.Stroke>
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="Resources/Deck.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle x:Name="RCT_Edeck" Height="140" Canvas.Left="10" Canvas.Top="90" Width="103">
+                    <Rectangle.Stroke>
+                        <SolidColorBrush Color="Black" Opacity="0"/>
+                    </Rectangle.Stroke>
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="Resources/Deck.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle x:Name="RCT_EcardI" Height="140" Canvas.Left="117" Canvas.Top="10" Width="103">
+                    <Rectangle.Stroke>
+                        <SolidColorBrush Color="Black" Opacity="0"/>
+                    </Rectangle.Stroke>
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="Resources/Deck.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle x:Name="RCT_EcardII" Height="140" Canvas.Left="246" Canvas.Top="10" Width="103">
+                    <Rectangle.Stroke>
+                        <SolidColorBrush Color="Black" Opacity="0"/>
+                    </Rectangle.Stroke>
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="Resources/Deck.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle x:Name="RCT_EcardIII" Height="140" Canvas.Left="377" Canvas.Top="10" Width="103">
+                    <Rectangle.Stroke>
+                        <SolidColorBrush Color="Black" Opacity="0"/>
+                    </Rectangle.Stroke>
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="Resources/Deck.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle x:Name="RCT_EcardIV" Height="140" Canvas.Left="508" Canvas.Top="10" Width="103">
+                    <Rectangle.Stroke>
+                        <SolidColorBrush Color="Black" Opacity="0"/>
+                    </Rectangle.Stroke>
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="Resources/Deck.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle x:Name="RCT_EcardV" Height="140" Canvas.Left="642" Canvas.Top="10" Width="103">
+                    <Rectangle.Stroke>
+                        <SolidColorBrush Color="Black" Opacity="0"/>
+                    </Rectangle.Stroke>
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="Resources/Deck.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Label x:Name="LBL_Who" Content="Your" FontFamily="Algerian" FontSize="36" Height="58" Canvas.Left="3" Canvas.Top="333" Width="104" Foreground="White"/>
+                <Label x:Name="LBL_Turn" Content="Turn" FontFamily="Algerian" FontSize="36" Height="59" Canvas.Left="3" Canvas.Top="390" Width="101" Foreground="White"/>
                 <Grid x:Name="GRD_Playcard" Height="138" Canvas.Left="377" Canvas.Top="158" Width="102">
                     <Grid.Background>
-                        <ImageBrush ImageSource="Resources/FL_Default.png"/>
+                        <ImageBrush ImageSource="Resources/FL_Playcard.png"/>
                     </Grid.Background>
                     <Label x:Name="LBL_Playcard" Content="wild" Background="{x:Null}" FontFamily="Algerian" FontSize="16" Margin="27,55,26,51" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Visibility="Hidden"/>
                 </Grid>
-                <Label x:Name="LBL_Ppoint" Content="Points:" FontFamily="Algerian" FontSize="24" Height="42" Canvas.Left="749" Canvas.Top="379" Width="101"/>
+                <Label x:Name="LBL_Ppoint" Content="Points:" FontFamily="Algerian" FontSize="24" Height="42" Canvas.Left="749" Canvas.Top="379" Width="101" Foreground="White"/>
                 <Label x:Name="LBL_EPoint" Content="Points:" FontFamily="Algerian" FontSize="24" Foreground="White" Height="42" Canvas.Left="10" Canvas.Top="10" Width="95"/>
-                <Label x:Name="LBL_PlrPnt" Content="0" FontFamily="Algerian" FontSize="24" Height="42" Canvas.Left="749" Canvas.Top="408" Width="101"/>
+                <Label x:Name="LBL_PlrPnt" Content="0" FontFamily="Algerian" FontSize="24" Height="42" Canvas.Left="749" Canvas.Top="408" Width="101" Foreground="White"/>
                 <Label x:Name="LBL_CPUPnts" Content="0" FontFamily="Algerian" FontSize="24" Foreground="White" Height="42" Canvas.Left="8" Canvas.Top="43" Width="95"/>
                 <Button x:Name="BTN_CardV" Content="CardV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="642" Canvas.Top="305" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
+                    <Button.BorderBrush>
+                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
+                    </Button.BorderBrush>
                     <Button.Background>
                         <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Button.Background>
                 </Button>
                 <Button x:Name="BTN_CardIV" Content="CardIV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="508" Canvas.Top="305" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
+                    <Button.BorderBrush>
+                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
+                    </Button.BorderBrush>
                     <Button.Background>
                         <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Button.Background>
                 </Button>
                 <Button x:Name="BTN_CardIII" Content="CardIII" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="377" Canvas.Top="305" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
+                    <Button.BorderBrush>
+                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
+                    </Button.BorderBrush>
                     <Button.Background>
                         <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Button.Background>
                 </Button>
                 <Button x:Name="BTN_CardII" Content="CardII" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="246" Canvas.Top="305" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
+                    <Button.BorderBrush>
+                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
+                    </Button.BorderBrush>
                     <Button.Background>
                         <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Button.Background>
                 </Button>
                 <Button x:Name="BTN_CardI" Content="CardI" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="CardClick" Canvas.Left="117" Canvas.Top="305" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
+                    <Button.BorderBrush>
+                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
+                    </Button.BorderBrush>
                     <Button.Background>
                         <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Button.Background>
                 </Button>
-                <Label x:Name="LBL_CPUDeck" Content="0" FontFamily="Algerian" FontSize="24" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="140" Canvas.Left="10" Canvas.Top="90" Width="102"/>
-                <Label x:Name="LBL_PlrDeck" Content="0" FontFamily="Algerian" FontSize="24" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="140" Canvas.Left="749" Canvas.Top="244" Width="102"/>
-                <Button x:Name="BTN_Pass" Content="Pass" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="56" Background="Red" Foreground="#FF691E1E" FontFamily="Algerian" FontSize="36" BorderBrush="White" Visibility="Hidden" Click="BTN_Pass_Click" IsEnabled="False" Canvas.Left="246" Canvas.Top="211" ToolTip="End your turn without playing a card"/>
+                <Label x:Name="LBL_CPUDeck" Content="0" FontFamily="Algerian" FontSize="24" Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="140" Canvas.Left="10" Canvas.Top="90" Width="102"/>
+                <Label x:Name="LBL_PlrDeck" Content="0" FontFamily="Algerian" FontSize="24" Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="140" Canvas.Left="749" Canvas.Top="244" Width="102"/>
+                <Button x:Name="BTN_Pass" Content="Pass" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="56" Foreground="Black" FontFamily="Algerian" FontSize="36" BorderBrush="Black" Visibility="Hidden" Click="BTN_Pass_Click" IsEnabled="False" Canvas.Left="246" Canvas.Top="211" ToolTip="End your turn without playing a card">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Red" Offset="0"/>
+                            <GradientStop Color="#FF710000" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
             </Canvas>
         </Viewbox>
         <Viewbox x:Name="VBX_Victory" OpacityMask="#FFCB1A1A" Stretch="Fill" Margin="0,0,0,-0.6">
@@ -436,6 +504,9 @@
                     </Button.Background>
                 </Button>
                 <Button x:Name="BTN_FoilDisp" Content="Wild" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Canvas.Left="375" Canvas.Top="153" MouseEnter="CardHover" MouseLeave="NotCardHover" RenderTransformOrigin="0.5,1" Style="{DynamicResource Card}">
+                    <Button.BorderBrush>
+                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
+                    </Button.BorderBrush>
                     <Button.Background>
                         <ImageBrush ImageSource="Resources/FL_Default.png"/>
                     </Button.Background>
@@ -621,7 +692,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.7.6.3" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16" ClipToBounds="True" Height="30"/>
+                <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.8.1.1" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16" ClipToBounds="True" Height="30"/>
                 <Label x:Name="LBL_Header" Content="The" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="36" Height="45" Canvas.Top="-12" ClipToBounds="True"/>
                 <Label x:Name="LBL_Debug" Content="Debug Enabled" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="137" Canvas.Left="705" Background="#00000000" FontSize="16" Visibility="Hidden"/>
                 <Button x:Name="BTN_Options" Content="Options" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="BTN_Options_Click" Canvas.Left="515" Canvas.Top="185" RenderTransformOrigin="0.5,0.5" ToolTip="Configure the game's settings" ClipToBounds="True">

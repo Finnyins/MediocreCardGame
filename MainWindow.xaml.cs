@@ -61,6 +61,8 @@ namespace Project24
 
         BitmapImage CPUFoil = new BitmapImage(new Uri("pack://application:,,,/Resources/FL_CPU.png", UriKind.Absolute));
 
+        BitmapImage PlaycardFoil = new BitmapImage(new Uri("pack://application:,,,/Resources/FL_Playcard.png", UriKind.Absolute));
+
         byte SelectedFoil = 0;
 
         SCR_Deck PlrDeck = new SCR_Deck(false, false, 52, null);
@@ -82,6 +84,7 @@ namespace Project24
             LoadSettings();
             Foils = StatsManager.LoadFoils();
             FoilTexture = new BitmapImage(new Uri($"pack://application:,,,{Foils[SelectedFoil].File}", UriKind.Absolute));
+            PlaycardFoil = new BitmapImage(new Uri("pack://application:,,,/Resources/FL_Playcard.png", UriKind.Absolute));
             RoutedCommand Debug = new RoutedCommand();
             Debug.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control | ModifierKeys.Shift));
             CommandBindings.Add(new CommandBinding(Debug, DebugToggle));
@@ -274,7 +277,7 @@ namespace Project24
             LBL_Playcard.Visibility = Visibility.Hidden;
             BTN_Pass.IsEnabled = false;
             BTN_Pass.Visibility = Visibility.Hidden;
-            GRD_Playcard.Background = new ImageBrush(DefaultFoil);
+            GRD_Playcard.Background = new ImageBrush(PlaycardFoil);
             DealCards();
             PlayerTurn();
         }
@@ -604,7 +607,7 @@ namespace Project24
             }
             await Task.Delay(2500);
             LBL_Playcard.Visibility = Visibility.Hidden;
-            GRD_Playcard.Background = new ImageBrush(DefaultFoil);
+            GRD_Playcard.Background = new ImageBrush(PlaycardFoil);
             BTN_Pass.IsEnabled = false;
             BTN_Pass.Visibility = Visibility.Hidden;
             if (plrscore)
