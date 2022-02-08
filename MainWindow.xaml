@@ -692,7 +692,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.8.1.1" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16" ClipToBounds="True" Height="30"/>
+                <Label x:Name="LBL_Credit" Content="By Finn O'Brien, V.1.8.1.2" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="16" ClipToBounds="True" Height="30"/>
                 <Label x:Name="LBL_Header" Content="The" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="832" Canvas.Left="10" Background="#00000000" FontSize="36" Height="45" Canvas.Top="-12" ClipToBounds="True"/>
                 <Label x:Name="LBL_Debug" Content="Debug Enabled" Canvas.Top="415" HorizontalContentAlignment="Center" FontFamily="Algerian" Width="137" Canvas.Left="705" Background="#00000000" FontSize="16" Visibility="Hidden"/>
                 <Button x:Name="BTN_Options" Content="Options" Width="100" Height="140" FontFamily="Algerian" FontSize="24" Click="BTN_Options_Click" Canvas.Left="515" Canvas.Top="185" RenderTransformOrigin="0.5,0.5" ToolTip="Configure the game's settings" ClipToBounds="True">
