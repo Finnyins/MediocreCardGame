@@ -977,7 +977,7 @@ namespace Project24
                 }
                 if (playedcard)
                 {
-                    if (CPUHand.Count != 0)
+                    if (cards != 0)
                     {
                         GRD_Playcard.Background = new ImageBrush(CPUFoil);
                     }
